@@ -1,0 +1,58 @@
+import type { DocumentTemplate } from "../types/document";
+
+export const DOCUMENT_TEMPLATES: DocumentTemplate[] = [
+  {
+    code: "barangay-clearance",
+    shortCode: "BCL",
+    name: "Barangay Clearance",
+    description: "General clearance for employment, transactions, permits, and other lawful purposes.",
+    defaultPurpose: "employment requirement",
+    fee: 100,
+    requiresOr: true,
+  },
+  {
+    code: "residency",
+    shortCode: "COR",
+    name: "Certificate of Residency",
+    description: "Certifies the resident's current address and period of residence in the barangay.",
+    defaultPurpose: "proof of residency",
+    fee: 50,
+    requiresOr: true,
+  },
+  {
+    code: "indigency",
+    shortCode: "COI",
+    name: "Certificate of Indigency",
+    description: "Supports qualified residents requesting medical, educational, or financial assistance.",
+    defaultPurpose: "medical and financial assistance",
+    fee: 0,
+    requiresOr: false,
+  },
+  {
+    code: "good-moral",
+    shortCode: "GMC",
+    name: "Certificate of Good Moral Character",
+    description: "Certifies the resident's known good standing in the barangay.",
+    defaultPurpose: "school or employment requirement",
+    fee: 50,
+    requiresOr: true,
+  },
+  {
+    code: "first-time-jobseeker",
+    shortCode: "FTJ",
+    name: "First-Time Jobseeker Certification",
+    description: "Barangay certification used for first-time jobseeker documentary benefits.",
+    defaultPurpose: "first-time employment application",
+    fee: 0,
+    requiresOr: false,
+  },
+  {
+    code: "no-pending-case",
+    shortCode: "NPC",
+    name: "Certificate of No Pending Barangay Case",
+    description: "Certifies that the resident has no pending case recorded before the Lupong Tagapamayapa.",
+    defaultPurpose: "legal and employment requirement",
+    fee: 100,
+    requiresOr: true,
+  },
+];

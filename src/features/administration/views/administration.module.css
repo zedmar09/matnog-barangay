@@ -1,0 +1,1658 @@
+.scopeStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 14px;
+  padding: 11px 14px;
+  border: 1px solid #dfe9e7;
+  border-radius: 10px;
+  background: #f7fbfa;
+  color: #617773;
+  font-size: 10px;
+}
+.scopeStrip > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.scopeStrip svg {
+  color: #158f84;
+}
+.scopeStrip strong {
+  color: #294b46;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.55fr);
+  gap: 14px;
+  align-items: start;
+}
+.directory {
+  min-width: 0;
+  overflow: hidden;
+}
+.accountList {
+  max-height: 720px;
+  overflow: auto;
+}
+.accountList > button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto minmax(170px, 1.3fr) minmax(120px, 0.8fr) minmax(125px, 0.8fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 13px;
+  border: 0;
+  border-bottom: 1px solid #edf2f1;
+  background: #fff;
+  color: #3a5450;
+  text-align: left;
+  cursor: pointer;
+}
+.accountList > button:hover,
+.accountList > .selectedAccount {
+  background: #f1f8f6;
+}
+.accountList > .selectedAccount {
+  box-shadow: inset 3px 0 #158f84;
+}
+.avatar,
+.largeAvatar {
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #e1f2ef;
+  color: #147f76;
+  font-weight: 650;
+}
+.avatar {
+  width: 34px;
+  height: 34px;
+  font-size: 10px;
+}
+.largeAvatar {
+  width: 46px;
+  height: 46px;
+  font-size: 13px;
+}
+.accountIdentity,
+.accountRole,
+.loginInfo {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.accountIdentity strong,
+.accountRole strong,
+.loginInfo strong {
+  overflow: hidden;
+  color: #354f4b;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.accountIdentity small,
+.accountRole small,
+.loginInfo small {
+  overflow: hidden;
+  color: #7c908c;
+  font-size: 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.accountRole strong {
+  font-weight: 550;
+}
+.loginInfo strong {
+  color: #6b807c;
+  font-weight: 500;
+}
+.statusBadge {
+  display: inline-flex;
+  min-width: 57px;
+  min-height: 22px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 7px;
+  border-radius: 11px;
+  font-size: 7px;
+  font-weight: 650;
+}
+.active {
+  background: #e3f6ef;
+  color: #17745e;
+}
+.invited {
+  background: #e7f1fb;
+  color: #2f6f9f;
+}
+.locked {
+  background: #fff2d9;
+  color: #97681b;
+}
+.suspended {
+  background: #fbe8e8;
+  color: #a34141;
+}
+.detailPanel {
+  overflow: hidden;
+}
+.profileHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e5eceb;
+  background: #f8fbfa;
+}
+.profileHeader h2 {
+  margin: 2px 0;
+  color: #2e4a45;
+  font-size: 14px;
+}
+.profilePosition {
+  color: #748884;
+  font-size: 8px;
+}
+.profileActions {
+  display: flex;
+  gap: 7px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e8efed;
+}
+.profileActions > button:first-child {
+  flex: 1;
+}
+.profileActions > button:last-child {
+  width: 37px;
+  padding: 0;
+}
+.detailSection {
+  padding: 13px 15px;
+  border-bottom: 1px solid #e8efed;
+}
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+  color: #49706a;
+  font-size: 9px;
+}
+.sectionTitle strong {
+  color: #334f4a;
+}
+.sectionTitle span {
+  display: grid;
+  min-width: 18px;
+  height: 18px;
+  margin-left: auto;
+  place-items: center;
+  border-radius: 9px;
+  background: #e8f4f1;
+  color: #16847a;
+  font-size: 7px;
+}
+.detailList {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+.detailList > div {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 8px;
+}
+.detailList dt {
+  color: #83938f;
+  font-size: 8px;
+}
+.detailList dd {
+  margin: 0;
+  color: #425c57;
+  font-size: 8px;
+  font-weight: 550;
+  text-align: right;
+}
+.permissionList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.permissionList span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border: 1px solid #d9e8e4;
+  border-radius: 7px;
+  background: #f7fbfa;
+  color: #4b6863;
+  font-size: 8px;
+}
+.permissionList svg {
+  color: #16877c;
+}
+.securityRows {
+  display: grid;
+  gap: 9px;
+}
+.securityRows > div {
+  display: grid;
+  gap: 3px;
+}
+.securityRows span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #7b8e8a;
+  font-size: 8px;
+}
+.securityRows strong {
+  padding-left: 20px;
+  color: #3f5a55;
+  font-size: 8px;
+  font-weight: 550;
+}
+.goodText {
+  color: #207761 !important;
+}
+.warningText {
+  color: #a06d19 !important;
+}
+.contactLine {
+  margin: 4px 0;
+  color: #526b67;
+  font-size: 8px;
+}
+.emptyState,
+.emptyDetail {
+  display: grid;
+  min-height: 180px;
+  place-items: center;
+  align-content: center;
+  gap: 7px;
+  padding: 24px;
+  color: #81918e;
+  font-size: 9px;
+  text-align: center;
+}
+.emptyState svg {
+  color: #a7b8b4;
+}
+.emptyState strong {
+  color: #4d6561;
+  font-size: 10px;
+}
+@media (max-width: 1050px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  .accountList {
+    max-height: none;
+  }
+  .detailPanel {
+    order: -1;
+  }
+}
+@media (max-width: 760px) {
+  .accountList > button {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+  }
+  .accountRole,
+  .loginInfo {
+    display: none;
+  }
+  .scopeStrip {
+    display: grid;
+    gap: 9px;
+  }
+}
+
+.governanceWorkspace,
+.retentionWorkspace,
+.securityWorkspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.55fr);
+  gap: 14px;
+  align-items: start;
+}
+.governanceDirectory,
+.governanceDetail,
+.retentionTable,
+.retentionDetail,
+.securityDirectory,
+.securityDetail {
+  overflow: hidden;
+}
+.governanceList,
+.retentionRows,
+.securityList {
+  max-height: 730px;
+  overflow: auto;
+}
+.governanceList > button,
+.retentionRows > button,
+.securityList > button {
+  display: grid;
+  width: 100%;
+  gap: 9px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid #edf2f1;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.governanceList > button {
+  grid-template-columns: auto minmax(170px, 1fr) minmax(90px, 0.4fr) auto auto;
+}
+.retentionRows > button {
+  grid-template-columns: auto minmax(170px, 1fr) minmax(140px, 0.7fr) minmax(75px, 0.35fr) auto auto;
+}
+.securityList > button {
+  grid-template-columns: auto minmax(175px, 1fr) minmax(120px, 0.55fr) auto auto;
+}
+.governanceList > button:hover,
+.retentionRows > button:hover,
+.securityList > button:hover,
+.governanceList > .selectedGovernance,
+.retentionRows > .selectedGovernance,
+.securityList > .selectedSecurity {
+  background: #f0f8f6;
+}
+.governanceList > .selectedGovernance,
+.retentionRows > .selectedGovernance,
+.securityList > .selectedSecurity {
+  box-shadow: inset 3px 0 #158c81;
+}
+.governanceList > button > span:not(.domainIcon, .statusBadge),
+.retentionRows > button > span:not(.domainIcon, .statusBadge),
+.securityList > button > span:not(.domainIcon, .severityBadge) {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.governanceList strong,
+.retentionRows strong,
+.securityList strong {
+  overflow: hidden;
+  color: #39544f;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.governanceList small,
+.retentionRows small,
+.securityList small {
+  overflow: hidden;
+  color: #82938f;
+  font-size: 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.governanceHeader,
+.securityHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 14px;
+  border-bottom: 1px solid #e4ecea;
+  background: #f8fbfa;
+}
+.governanceHeader h2,
+.securityHeader h2 {
+  margin: 2px 0;
+  color: #304d48;
+  font-size: 13px;
+}
+.governanceHeader > div > span,
+.securityHeader > div > span {
+  color: #7a8d89;
+  font-size: 7px;
+}
+.basisCallout,
+.retentionClock {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 12px 13px 0;
+  padding: 10px;
+  border: 1px solid #cfe3de;
+  border-radius: 8px;
+  background: #eff8f5;
+  color: #16877c;
+}
+.basisCallout span,
+.retentionClock span {
+  display: grid;
+  gap: 2px;
+}
+.basisCallout small,
+.retentionClock small {
+  color: #7c908b;
+  font-size: 6px;
+}
+.basisCallout strong,
+.retentionClock strong {
+  color: #3c5a54;
+  font-size: 8px;
+}
+.governanceSection {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e6edeb;
+}
+.governanceSection .sectionTitle {
+  margin-bottom: 8px;
+}
+.governanceSection > p {
+  margin: 0;
+  color: #506b66;
+  font-size: 8px;
+  line-height: 1.55;
+}
+.consentCoverage {
+  display: grid;
+  gap: 8px;
+}
+.consentCoverage > span {
+  display: grid;
+  gap: 2px;
+}
+.consentCoverage strong {
+  color: #2f645a;
+  font-size: 12px;
+}
+.consentCoverage small {
+  color: #7c908b;
+  font-size: 6px;
+}
+.consentCoverage > div {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #e2ece9;
+}
+.consentCoverage > div > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #168b80;
+}
+.governanceFacts {
+  padding: 12px 14px;
+}
+.governanceFacts > div {
+  grid-template-columns: 95px minmax(0, 1fr);
+}
+.retentionClock {
+  margin-bottom: 12px;
+}
+.disposalCounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #e5edeb;
+  border-bottom: 1px solid #e5edeb;
+  background: #e5edeb;
+  gap: 1px;
+}
+.disposalCounts > div {
+  display: grid;
+  gap: 2px;
+  padding: 11px 13px;
+  background: #fff;
+}
+.disposalCounts strong {
+  color: #31544d;
+  font-size: 13px;
+}
+.disposalCounts span {
+  color: #7b8e89;
+  font-size: 7px;
+}
+.retentionActions {
+  padding: 11px 13px;
+  border-top: 1px solid #e5edeb;
+  background: #f8fbfa;
+}
+.retentionActions button {
+  width: 100%;
+}
+.retentionActions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.severityBadge {
+  display: inline-flex;
+  min-width: 50px;
+  min-height: 22px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 7px;
+  border-radius: 11px;
+  font-size: 7px;
+  font-weight: 650;
+}
+.severityLow {
+  background: #e8f3f7;
+  color: #3a7083;
+}
+.severityMedium {
+  background: #fff3d9;
+  color: #8a651e;
+}
+.severityHigh {
+  background: #fee9dc;
+  color: #a25028;
+}
+.severityCritical {
+  background: #f9dfdf;
+  color: #a23838;
+}
+.incidentStatus {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  border-bottom: 1px solid #e5edeb;
+  background: #e5edeb;
+  gap: 1px;
+}
+.incidentStatus > span {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  background: #fff;
+}
+.incidentStatus small {
+  color: #82938f;
+  font-size: 6px;
+}
+.incidentStatus strong {
+  color: #3d5954;
+  font-size: 7px;
+}
+.breachNotice {
+  display: flex;
+  gap: 8px;
+  margin: 11px 12px 0;
+  padding: 9px;
+  border: 1px solid #edbebe;
+  border-radius: 7px;
+  background: #fff1f1;
+  color: #a13e3e;
+}
+.breachNotice span {
+  display: grid;
+  gap: 2px;
+}
+.breachNotice strong {
+  font-size: 8px;
+}
+.breachNotice small {
+  color: #8c6464;
+  font-size: 6px;
+  line-height: 1.4;
+}
+.evidenceList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.evidenceList span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 6px;
+  border: 1px solid #dbe7e4;
+  border-radius: 6px;
+  background: #f8fbfa;
+  color: #536e68;
+  font-size: 6px;
+}
+.responseSteps {
+  display: grid;
+}
+.responseSteps > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 7px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #edf2f1;
+  color: #8a9a96;
+}
+.responseSteps > div:last-child {
+  border-bottom: 0;
+}
+.responseSteps strong {
+  font-size: 7px;
+}
+.responseSteps small {
+  font-size: 6px;
+}
+.responseSteps .stepComplete {
+  color: #24735f;
+}
+@media (max-width: 1050px) {
+  .governanceWorkspace,
+  .retentionWorkspace,
+  .securityWorkspace {
+    grid-template-columns: 1fr;
+  }
+  .governanceDetail,
+  .retentionDetail,
+  .securityDetail {
+    order: -1;
+  }
+}
+@media (max-width: 760px) {
+  .governanceList > button,
+  .retentionRows > button,
+  .securityList > button {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+  }
+  .governanceList > button > span:nth-child(3),
+  .retentionRows > button > span:nth-child(3),
+  .retentionRows > button > span:nth-child(4),
+  .securityList > button > span:nth-child(3) {
+    display: none;
+  }
+}
+
+.immutableBanner {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid #cfe2de;
+  border-radius: 9px;
+  background: #f1f8f6;
+  color: #16877c;
+}
+.immutableBanner > span:not(.chainStatus) {
+  display: grid;
+  gap: 2px;
+}
+.immutableBanner strong {
+  color: #3a5751;
+  font-size: 9px;
+}
+.immutableBanner small {
+  color: #768b86;
+  font-size: 7px;
+}
+.chainStatus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  padding: 5px 7px;
+  border-radius: 7px;
+  background: #dff2eb;
+  color: #21735f;
+  font-size: 7px;
+  font-weight: 650;
+}
+.auditWorkspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.5fr);
+  gap: 14px;
+  align-items: start;
+}
+.auditDirectory,
+.auditDetail {
+  overflow: hidden;
+}
+.auditList {
+  max-height: 750px;
+  overflow: auto;
+}
+.auditList > button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto minmax(155px, 1.1fr) minmax(120px, 0.75fr) minmax(125px, 0.75fr) auto auto;
+  gap: 9px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid #edf2f1;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.auditList > button:hover,
+.auditList > .selectedAudit {
+  background: #f0f8f6;
+}
+.auditList > .selectedAudit {
+  box-shadow: inset 3px 0 #158c81;
+}
+.auditIcon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 8px;
+  background: #e6f3f0;
+  color: #16867b;
+}
+.auditList > button > span:not(.auditIcon, .statusBadge) {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.auditList strong {
+  overflow: hidden;
+  color: #39544f;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.auditList small {
+  overflow: hidden;
+  color: #82938f;
+  font-size: 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.auditDetailHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 14px;
+  border-bottom: 1px solid #e4ecea;
+  background: #f8fbfa;
+}
+.auditDetailHeader h2 {
+  margin: 2px 0;
+  color: #304d48;
+  font-size: 13px;
+}
+.auditDetailHeader > div > span {
+  color: #7a8d89;
+  font-size: 7px;
+}
+.auditSubject {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #e6edeb;
+  background: #e6edeb;
+  gap: 1px;
+}
+.auditSubject > span {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 7px;
+  align-items: center;
+  padding: 10px 12px;
+  background: #fff;
+  color: #16877c;
+}
+.auditSubject small {
+  color: #82928f;
+  font-size: 6px;
+}
+.auditSubject strong {
+  grid-column: 2;
+  color: #405b56;
+  font-size: 7px;
+}
+.auditSection {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e6edeb;
+}
+.auditSection .sectionTitle {
+  margin-bottom: 9px;
+}
+.reasonText {
+  margin: 0;
+  padding: 9px;
+  border-left: 3px solid #73b7ac;
+  background: #f5f9f8;
+  color: #4d6863;
+  font-size: 8px;
+  line-height: 1.55;
+}
+.changeList {
+  overflow: hidden;
+  border: 1px solid #e2eae8;
+  border-radius: 7px;
+}
+.changeList > div {
+  display: grid;
+  gap: 5px;
+  padding: 8px 9px;
+  border-bottom: 1px solid #edf2f1;
+}
+.changeList > div:last-child {
+  border-bottom: 0;
+}
+.changeList strong {
+  color: #536d68;
+  font-size: 7px;
+}
+.changeList span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 7px;
+}
+.changeList del {
+  color: #a65b5b;
+}
+.changeList ins {
+  color: #267560;
+  text-decoration: none;
+}
+.integrityPanel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  margin: 12px;
+  padding: 10px;
+  border: 1px solid #cfe3df;
+  border-radius: 8px;
+  background: #eff8f5;
+  color: #16877c;
+}
+.integrityPanel span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.integrityPanel small {
+  color: #728984;
+  font-size: 6px;
+}
+.integrityPanel strong {
+  overflow: hidden;
+  color: #3e5d57;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 1050px) {
+  .auditWorkspace {
+    grid-template-columns: 1fr;
+  }
+  .auditDetail {
+    order: -1;
+  }
+}
+@media (max-width: 760px) {
+  .auditList > button {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+  }
+  .auditList > button > span:nth-child(3),
+  .auditList > button > span:nth-child(4) {
+    display: none;
+  }
+}
+
+.successNotice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid #bfe1d7;
+  border-radius: 8px;
+  background: #eaf8f3;
+  color: #267762;
+  font-size: 9px;
+}
+.rolesWorkspace {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.32fr) minmax(0, 0.68fr);
+  gap: 14px;
+  align-items: start;
+}
+.roleDirectory,
+.permissionPanel {
+  overflow: hidden;
+}
+.panelHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid #e5edeb;
+  background: #f8fbfa;
+}
+.panelHeading h2 {
+  margin: 0;
+  color: #304d48;
+  font-size: 13px;
+}
+.panelHeading > span {
+  padding: 5px 8px;
+  border-radius: 10px;
+  background: #e7f3f0;
+  color: #31776d;
+  font-size: 7px;
+  font-weight: 600;
+}
+.roleList button {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 9px;
+  align-items: center;
+  padding: 13px 12px 20px;
+  border: 0;
+  border-bottom: 1px solid #edf2f1;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.roleList button:hover,
+.roleList .selectedRole {
+  background: #f0f8f6;
+}
+.roleList .selectedRole {
+  box-shadow: inset 3px 0 #168b80;
+}
+.roleIcon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 8px;
+  background: #e4f2ef;
+  color: #16867b;
+}
+.roleCopy,
+.roleCount {
+  display: grid;
+  gap: 3px;
+}
+.roleCopy strong,
+.roleCount strong {
+  color: #37534e;
+  font-size: 9px;
+}
+.roleCopy small,
+.roleCount small,
+.roleAccess {
+  color: #81928f;
+  font-size: 7px;
+}
+.roleCount {
+  justify-items: end;
+}
+.roleAccess {
+  position: absolute;
+  bottom: 7px;
+  left: 53px;
+}
+.roleLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 11px 13px;
+  background: #fbfdfc;
+  color: #718581;
+  font-size: 7px;
+}
+.roleLegend > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.legendDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.operationalDot {
+  background: #168b80;
+}
+.systemDot {
+  background: #617b96;
+}
+.permissionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid #e4ecea;
+  background: #f8fbfa;
+}
+.roleTitleLine {
+  display: flex;
+  gap: 6px;
+  color: #16877c;
+  font-size: 7px;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.roleTitleLine span + span::before {
+  margin-right: 6px;
+  content: "•";
+}
+.permissionHeader h2 {
+  margin: 4px 0;
+  color: #2f4b46;
+  font-size: 16px;
+}
+.permissionHeader p {
+  max-width: 590px;
+  margin: 0;
+  color: #748884;
+  font-size: 8px;
+  line-height: 1.5;
+}
+.scopeBadge {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border: 1px solid #d5e5e1;
+  border-radius: 7px;
+  background: #fff;
+  color: #4a6963;
+  font-size: 7px;
+  font-weight: 600;
+}
+.permissionMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid #e7eeed;
+  background: #e5edeb;
+  gap: 1px;
+}
+.permissionMetrics > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 12px;
+  background: #fff;
+  color: #16877c;
+}
+.permissionMetrics span {
+  display: grid;
+  gap: 2px;
+  color: #7a8e89;
+  font-size: 7px;
+}
+.permissionMetrics strong {
+  color: #37534e;
+  font-size: 11px;
+}
+.riskNotice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 14px 0;
+  padding: 9px 10px;
+  border: 1px solid #edd9ad;
+  border-radius: 7px;
+  background: #fff9ec;
+  color: #866524;
+  font-size: 8px;
+}
+.matrixHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 9px;
+}
+.matrixHeading h3 {
+  margin: 0;
+  color: #334f4a;
+  font-size: 11px;
+}
+.matrixHeading p {
+  margin: 3px 0 0;
+  color: #80918e;
+  font-size: 7px;
+}
+.matrixLegend {
+  display: flex;
+  gap: 5px;
+}
+.matrixLegend span {
+  padding: 4px 6px;
+  border-radius: 5px;
+  font-size: 6px;
+  font-weight: 600;
+}
+.permissionMatrix {
+  padding: 0 14px 14px;
+}
+.permissionGroup {
+  border: 1px solid #e2eae8;
+  border-bottom: 0;
+}
+.permissionGroup:last-child {
+  border-bottom: 1px solid #e2eae8;
+  border-radius: 0 0 8px 8px;
+}
+.permissionGroup:first-child {
+  border-radius: 8px 8px 0 0;
+}
+.groupLabel {
+  padding: 7px 10px;
+  border-bottom: 1px solid #e4ecea;
+  background: #f6faf9;
+  color: #5e7470;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.permissionRow {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto 145px;
+  gap: 9px;
+  align-items: center;
+  min-height: 47px;
+  padding: 7px 9px;
+  border-bottom: 1px solid #edf2f1;
+}
+.permissionRow:last-child {
+  border-bottom: 0;
+}
+.permissionRow > div {
+  display: grid;
+  gap: 3px;
+}
+.permissionRow strong {
+  color: #38534f;
+  font-size: 8px;
+}
+.permissionRow small {
+  color: #879793;
+  font-size: 6px;
+}
+.sensitiveBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border-radius: 5px;
+  background: #fff1dd;
+  color: #946623;
+  font-size: 6px;
+  font-weight: 650;
+}
+.permissionSelect {
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid #d7e2e0;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 7px;
+  font-weight: 600;
+}
+.levelNone {
+  background: #f3f5f5;
+  color: #75827f;
+}
+.levelView {
+  background: #e9f2fb;
+  color: #316f9d;
+}
+.levelEdit {
+  background: #e7f7f2;
+  color: #197a65;
+}
+.levelManage {
+  background: #e7f0ee;
+  color: #176e65;
+}
+.permissionFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  border-top: 1px solid #e4ecea;
+  background: #f8fbfa;
+  color: #81918e;
+  font-size: 7px;
+}
+.permissionFooter > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.permissionFooter button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+.unsaved {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #91671c;
+  font-weight: 600;
+}
+.unsaved > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d39a32;
+}
+@media (max-width: 1050px) {
+  .rolesWorkspace {
+    grid-template-columns: 1fr;
+  }
+  .roleList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .roleList button:nth-child(odd) {
+    border-right: 1px solid #edf2f1;
+  }
+}
+@media (max-width: 720px) {
+  .roleList,
+  .permissionMetrics {
+    grid-template-columns: 1fr 1fr;
+  }
+  .permissionHeader,
+  .matrixHeading,
+  .permissionFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .permissionRow {
+    grid-template-columns: minmax(0, 1fr) 120px;
+  }
+  .sensitiveBadge {
+    display: none;
+  }
+}
+
+.sensitiveWorkspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.5fr);
+  gap: 14px;
+  align-items: start;
+}
+.sensitiveDirectory,
+.grantDetail,
+.purposeDirectory,
+.ruleEditor {
+  overflow: hidden;
+}
+.grantList {
+  max-height: 720px;
+  overflow: auto;
+}
+.grantList > button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto minmax(160px, 1fr) minmax(100px, 0.7fr) minmax(90px, 0.55fr) auto auto;
+  gap: 9px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid #edf2f1;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.grantList > button:hover,
+.grantList > .selectedGrant {
+  background: #f0f8f6;
+}
+.grantList > .selectedGrant {
+  box-shadow: inset 3px 0 #158c81;
+}
+.grantList > button > span:not(.domainIcon, .statusBadge) {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.grantList strong,
+.purposeList strong {
+  overflow: hidden;
+  color: #39544f;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.grantList small,
+.purposeList small {
+  overflow: hidden;
+  color: #82938f;
+  font-size: 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.domainIcon,
+.largeLock {
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #e6f3f0;
+  color: #16867b;
+}
+.domainIcon {
+  width: 31px;
+  height: 31px;
+}
+.largeLock {
+  width: 42px;
+  height: 42px;
+}
+.grantHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 14px;
+  border-bottom: 1px solid #e4ecea;
+  background: #f8fbfa;
+}
+.grantHeader h2 {
+  margin: 2px 0;
+  color: #304d48;
+  font-size: 13px;
+}
+.grantHeader > div > span {
+  color: #7a8d89;
+  font-size: 7px;
+}
+.grantBanner {
+  display: flex;
+  gap: 7px;
+  margin: 11px 12px 0;
+  padding: 9px;
+  border: 1px solid #ead9b4;
+  border-radius: 7px;
+  background: #fff9ed;
+  color: #846324;
+  font-size: 7px;
+  line-height: 1.45;
+}
+.grantDetail .detailList {
+  padding: 13px 14px;
+  border-bottom: 1px solid #e5edeb;
+}
+.lastAccess {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 14px 13px;
+  padding: 9px;
+  border-radius: 7px;
+  background: #f4f8f7;
+  color: #16877c;
+}
+.lastAccess span {
+  display: grid;
+  gap: 2px;
+}
+.lastAccess small {
+  color: #81928e;
+  font-size: 6px;
+}
+.lastAccess strong {
+  color: #425d58;
+  font-size: 8px;
+}
+.grantControls {
+  padding: 11px 14px;
+  border-top: 1px solid #e5edeb;
+  background: #f8fbfa;
+}
+.grantControls button {
+  width: 100%;
+}
+.purposeWorkspace {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.28fr) minmax(0, 0.72fr);
+  gap: 14px;
+  align-items: start;
+}
+.purposeList button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 9px;
+  align-items: center;
+  padding: 11px 12px;
+  border: 0;
+  border-bottom: 1px solid #edf2f1;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.purposeList button:hover,
+.purposeList .selectedRole {
+  background: #f0f8f6;
+}
+.purposeList .selectedRole {
+  box-shadow: inset 3px 0 #158c81;
+}
+.purposeList button > span:not(.domainIcon) {
+  display: grid;
+  gap: 3px;
+}
+.purposeList button > span:nth-child(3) {
+  justify-items: end;
+}
+.ruleGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+  gap: 14px;
+  padding: 14px;
+}
+.ruleForm {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+.ruleChecks {
+  display: grid;
+  border: 1px solid #e1eae8;
+  border-radius: 8px;
+}
+.ruleChecks label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 10px;
+  border-bottom: 1px solid #e8efed;
+  cursor: pointer;
+}
+.ruleChecks label:last-child {
+  border-bottom: 0;
+}
+.ruleChecks input,
+.previewCheck input {
+  width: 15px;
+  height: 15px;
+  accent-color: #158f84;
+}
+.ruleChecks span {
+  display: grid;
+  gap: 2px;
+}
+.ruleChecks strong {
+  color: #3d5853;
+  font-size: 8px;
+}
+.ruleChecks small {
+  color: #81928e;
+  font-size: 6px;
+}
+.purposeOptions {
+  overflow: hidden;
+  border: 1px solid #e1eae8;
+  border-radius: 8px;
+}
+.purposeOptions .sectionTitle {
+  margin: 0;
+  padding: 9px 10px;
+  border-bottom: 1px solid #e4ecea;
+  background: #f7faf9;
+}
+.purposeOptions > div:not(.sectionTitle, .addPurpose) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 7px;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid #edf2f1;
+  color: #16877c;
+}
+.purposeOptions > div > span {
+  color: #445f5a;
+  font-size: 7px;
+}
+.purposeOptions > div > button {
+  border: 0;
+  background: transparent;
+  color: #9a6d6d;
+  cursor: pointer;
+}
+.addPurpose {
+  display: flex;
+  gap: 7px;
+  padding: 9px;
+  background: #f9fbfb;
+}
+.addPurpose input {
+  min-width: 0;
+  flex: 1;
+  height: 31px;
+  padding: 0 8px;
+  border: 1px solid #d7e3e0;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 7px;
+}
+.addPurpose button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: #168b80;
+  color: #fff;
+  font: inherit;
+  font-size: 7px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.promptPreview {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+}
+.previewDialog {
+  display: grid;
+  gap: 9px;
+  padding: 15px;
+  border: 1px solid #dbe7e4;
+  border-radius: 10px;
+  background: #fbfdfc;
+  box-shadow: 0 5px 18px rgb(33 71 66 / 6%);
+}
+.previewDialog h3 {
+  margin: 0;
+  color: #324f49;
+  font-size: 11px;
+}
+.previewDialog p {
+  margin: 0;
+  color: #7b8e8a;
+  font-size: 7px;
+}
+.previewDialog label {
+  display: grid;
+  gap: 5px;
+  color: #526b67;
+  font-size: 7px;
+  font-weight: 600;
+}
+.previewDialog select,
+.previewDialog textarea {
+  width: 100%;
+  padding: 7px 8px;
+  border: 1px solid #d7e2e0;
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+  font-size: 7px;
+}
+.previewDialog textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+.previewDialog > button {
+  height: 32px;
+  border: 0;
+  border-radius: 6px;
+  background: #168b80;
+  color: #fff;
+  font: inherit;
+  font-size: 8px;
+  font-weight: 600;
+}
+.previewCheck {
+  display: flex !important;
+  grid-template-columns: none !important;
+  align-items: center;
+  font-weight: 500 !important;
+}
+.visibilityNote {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  padding: 9px;
+  border-radius: 7px;
+  background: #eef6f4;
+  color: #16877c;
+}
+.visibilityNote span {
+  display: grid;
+  gap: 2px;
+}
+.visibilityNote strong {
+  color: #3f5c56;
+  font-size: 7px;
+}
+.visibilityNote small {
+  color: #7b8e8a;
+  font-size: 6px;
+}
+@media (max-width: 1050px) {
+  .sensitiveWorkspace,
+  .purposeWorkspace {
+    grid-template-columns: 1fr;
+  }
+  .grantDetail {
+    order: -1;
+  }
+}
+@media (max-width: 760px) {
+  .grantList > button {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+  }
+  .grantList > button > span:nth-child(3),
+  .grantList > button > span:nth-child(4) {
+    display: none;
+  }
+  .ruleGrid {
+    grid-template-columns: 1fr;
+  }
+}

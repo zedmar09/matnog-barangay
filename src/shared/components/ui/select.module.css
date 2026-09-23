@@ -1,0 +1,89 @@
+.trigger {
+  display: inline-flex;
+  height: 38px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  padding: 0 11px;
+  border: 1px solid #dce8e5;
+  border-radius: 9px;
+  outline: 0;
+  background: #f8fbfa;
+  color: #425a57;
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  border-color: #bed7d2;
+  background: #f3f8f7;
+}
+
+.trigger:focus-visible,
+.trigger[data-state="open"] {
+  border-color: #6ec6bd;
+  box-shadow: 0 0 0 3px rgb(21 148 136 / 11%);
+}
+
+.chevron {
+  flex: none;
+  color: #718783;
+}
+
+.content {
+  z-index: 80;
+  max-height: min(360px, var(--radix-select-content-available-height));
+  min-width: var(--radix-select-trigger-width);
+  overflow: hidden;
+  border: 1px solid #dce8e5;
+  border-radius: 10px;
+  background: #fff;
+  color: #304744;
+  box-shadow: 0 16px 40px rgb(27 67 63 / 16%);
+}
+
+.viewport {
+  padding: 5px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  padding: 7px 34px 7px 10px;
+  border-radius: 7px;
+  outline: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  cursor: default;
+  user-select: none;
+}
+
+.item[data-highlighted] {
+  background: #eaf5f3;
+  color: #0e7168;
+}
+
+.item[data-state="checked"] {
+  color: #0e7168;
+  font-weight: 500;
+}
+
+.indicator {
+  position: absolute;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  color: #159488;
+}
+
+.scrollButton {
+  display: grid;
+  height: 28px;
+  place-items: center;
+  background: #fff;
+  color: #718783;
+}
