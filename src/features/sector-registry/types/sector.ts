@@ -53,6 +53,8 @@ export type SectorCertificationRequest = {
   barangayCertifiedAt: string;
   municipalReviewedBy: string;
   municipalReviewedAt: string;
+  lastActionBy: string;
+  lastActionAt: string;
   decisionNote: string;
   updatedAt: string;
 };

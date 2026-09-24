@@ -11,6 +11,7 @@ type HouseholdRegistryState = {
   households: Household[];
   structures: HouseholdStructure[];
   addHousehold: (input: HouseholdInput) => Household;
+  updateHousehold: (id: string, input: HouseholdInput) => Household | undefined;
   addStructure: (input: HouseholdStructureInput) => HouseholdStructure;
   updateStructure: (id: string, input: HouseholdStructureInput) => HouseholdStructure | undefined;
   verifyHousehold: (id: string) => Household | undefined;
@@ -44,6 +45,19 @@ export const useHouseholdRegistryStore = create<HouseholdRegistryState>((set, ge
     };
     set((state) => ({ households: [household, ...state.households] }));
     return household;
+  },
+  updateHousehold: (id, input) => {
+    const current = get().households.find((item) => item.id === id);
+    if (!current) return undefined;
+    const updated: Household = {
+      ...current,
+      ...input,
+      id: current.id,
+      householdNumber: current.householdNumber,
+      updatedAt: new Date().toISOString(),
+    };
+    set((state) => ({ households: state.households.map((item) => (item.id === id ? updated : item)) }));
+    return updated;
   },
   addStructure: (input) => {
     const sequence = get().structures.length + 1;

@@ -31,6 +31,36 @@ const prefixes = ["Matnog", "Pacific", "Mayon", "Seaside", "Bicol", "Maharlika",
 const nouns = ["Trading", "General Merchandise", "Eatery", "Agri Supply", "Transport", "Lodge", "Builders", "Services"];
 const ownerships = ["Sole proprietorship", "Sole proprietorship", "Partnership", "Corporation", "Cooperative"] as const;
 const statuses = ["Active", "Active", "Active", "For renewal", "Lapsed", "Active"] as const;
+const businessTypeDistribution = [78, 55, 44, 39, 32, 27, 23, 20, 15, 11, 9, 7];
+const registrationMonthDistribution = [18, 22, 24, 30, 34, 38, 41, 45, 52, 24, 18, 14];
+const grossSalesDistribution = [132, 88, 61, 39, 25, 15];
+
+function businessTypeForIndex(index: number) {
+  let boundary = 0;
+  for (let typeIndex = 0; typeIndex < BUSINESS_TYPES.length; typeIndex += 1) {
+    boundary += businessTypeDistribution[typeIndex];
+    if (index < boundary) return BUSINESS_TYPES[typeIndex];
+  }
+  return BUSINESS_TYPES[BUSINESS_TYPES.length - 1];
+}
+
+function registrationMonthForIndex(index: number) {
+  let boundary = 0;
+  for (let monthIndex = 0; monthIndex < registrationMonthDistribution.length; monthIndex += 1) {
+    boundary += registrationMonthDistribution[monthIndex];
+    if (index < boundary) return monthIndex + 1;
+  }
+  return 12;
+}
+
+function grossSalesBracketForIndex(index: number) {
+  let boundary = 0;
+  for (let bracketIndex = 0; bracketIndex < grossSalesDistribution.length; bracketIndex += 1) {
+    boundary += grossSalesDistribution[bracketIndex];
+    if (index < boundary) return GROSS_SALES_BRACKETS[bracketIndex];
+  }
+  return GROSS_SALES_BRACKETS[GROSS_SALES_BRACKETS.length - 1];
+}
 
 export function createBusinessDummyData(residents: Resident[], structures: HouseholdStructure[]) {
   const businesses: BusinessRecord[] = Array.from({ length: 360 }, (_, index) => {
@@ -56,22 +86,20 @@ export function createBusinessDummyData(residents: Resident[], structures: House
             ? assessedFee
             : assessedFee / 2
           : 0;
+    const businessType = businessTypeForIndex(index);
     return {
       id: `business-${String(index + 1).padStart(5, "0")}`,
       businessNumber: `BR-${owner.address.barangayId.toUpperCase()}-${String(index + 1).padStart(5, "0")}`,
       businessName: `${prefixes[index % prefixes.length]} ${nouns[(index * 3) % nouns.length]}`,
-      tradeName:
-        index % 4 === 0
-          ? `${prefixes[(index + 2) % prefixes.length]} ${BUSINESS_TYPES[index % BUSINESS_TYPES.length]}`
-          : "",
-      businessType: BUSINESS_TYPES[index % BUSINESS_TYPES.length],
+      tradeName: index % 4 === 0 ? `${prefixes[(index + 2) % prefixes.length]} ${businessType}` : "",
+      businessType,
       ownership: ownerships[index % ownerships.length],
       ownerResidentId: owner.id,
       structureId: structure.id,
       barangayId: owner.address.barangayId,
       contactNumber: `09${String(170000000 + index * 7919).slice(-9)}`,
       email: index % 3 === 0 ? `business${index + 1}@example.ph` : "",
-      grossSalesBracket: GROSS_SALES_BRACKETS[index % GROSS_SALES_BRACKETS.length],
+      grossSalesBracket: grossSalesBracketForIndex(index),
       employeeCount: 1 + (index % 18),
       status,
       clearanceStatus,
@@ -81,7 +109,7 @@ export function createBusinessDummyData(residents: Resident[], structures: House
       assessedFee,
       amountPaid,
       lastPaymentDate: amountPaid ? `2026-0${(index % 9) + 1}-${String((index % 25) + 1).padStart(2, "0")}` : "",
-      registrationDate: `${year}-${String((index % 12) + 1).padStart(2, "0")}-${String((index % 25) + 1).padStart(2, "0")}`,
+      registrationDate: `${year}-${String(registrationMonthForIndex(index)).padStart(2, "0")}-${String((index % 25) + 1).padStart(2, "0")}`,
       renewalDueDate: status === "Lapsed" ? "2026-01-20" : status === "For renewal" ? "2026-10-15" : "2027-01-20",
       bplsPermitNumber: index % 5 === 0 ? "" : `BPLS-26-${String(index + 1300).padStart(6, "0")}`,
       bplsSyncStatus: index % 11 === 0 ? "Needs review" : index % 5 === 0 ? "Pending" : "Synced",

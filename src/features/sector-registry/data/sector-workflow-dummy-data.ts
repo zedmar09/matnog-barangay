@@ -57,6 +57,13 @@ export function createSectorWorkflowDummyData(residents: Resident[], memberships
         barangayCertifiedAt: status === "Submitted" ? "" : `${date}T10:15:00.000Z`,
         municipalReviewedBy: status === "Approved" || status === "Rejected" ? "Municipal Sector Desk" : "",
         municipalReviewedAt: status === "Approved" || status === "Rejected" ? `${date}T14:30:00.000Z` : "",
+        lastActionBy:
+          status === "Approved" || status === "Rejected"
+            ? "Municipal Sector Desk"
+            : status === "Submitted"
+              ? "Barangay Front Desk"
+              : "Barangay Registry Officer",
+        lastActionAt: `${date}T14:30:00.000Z`,
         decisionNote:
           status === "Rejected"
             ? "Supporting proof requires correction."

@@ -1,13 +1,13 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import {
-  Bell,
   Building2,
+  Check,
   ChevronDown,
   ChevronRight,
   CircleUserRound,
@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 
 import { MATNOG_BARANGAYS } from "@/data/barangays";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import { useBarangayScope } from "@/shared/providers/barangay-scope-provider";
 
 import styles from "./app-shell.module.css";
@@ -38,7 +37,9 @@ export function AppShell({ children }: { children?: ReactNode }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [openModules, setOpenModules] = useState<Set<string>>(new Set());
   const profileRef = useRef<HTMLDivElement>(null);
-  const { selectedBarangay, selectedBarangayName, setSelectedBarangay } = useBarangayScope();
+  const { selectedBarangayName, selectedBarangays, isAllSelected, toggleBarangay, selectAll } = useBarangayScope();
+  const [barangayDropdownOpen, setBarangayDropdownOpen] = useState(false);
+  const barangayDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     for (const section of NAV_SECTIONS) {
@@ -54,11 +55,14 @@ export function AppShell({ children }: { children?: ReactNode }) {
   useEffect(() => {
     function closeProfile(event: MouseEvent) {
       if (profileRef.current && !profileRef.current.contains(event.target as Node)) setProfileOpen(false);
+      if (barangayDropdownRef.current && !barangayDropdownRef.current.contains(event.target as Node))
+        setBarangayDropdownOpen(false);
     }
 
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setProfileOpen(false);
+        setBarangayDropdownOpen(false);
         setSidebarOpen(false);
       }
     }
@@ -71,7 +75,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
     };
   }, []);
 
-  if (pathname === "/" || pathname.startsWith("/public") || pathname.startsWith("/verify/")) return <>{children}</>;
+  if (pathname === "/" || pathname.startsWith("/verify/")) return <>{children}</>;
 
   return (
     <div className={styles.shell}>
@@ -95,42 +99,51 @@ export function AppShell({ children }: { children?: ReactNode }) {
         </div>
 
         <div className={styles.headerFilters}>
-          <div className={styles.searchWrap}>
-            <label className={styles.searchScope}>
-              <span className={styles.srOnly}>Search scope</span>
-              <select defaultValue="all" aria-label="Search scope">
-                <option value="all">All</option>
-              </select>
-              <ChevronDown size={14} aria-hidden="true" />
-            </label>
-            <label className={styles.searchField}>
-              <Search size={17} aria-hidden="true" />
-              <span className={styles.srOnly}>Search</span>
-              <input type="search" placeholder="Search" />
-            </label>
-          </div>
-
-          <Select value={selectedBarangay} onValueChange={setSelectedBarangay}>
-            <SelectTrigger className={styles.barangayTrigger} aria-label="Select barangay">
+          <div className={styles.barangayMultiSelect} ref={barangayDropdownRef}>
+            <button
+              className={styles.barangayTrigger}
+              type="button"
+              aria-label="Select barangays"
+              aria-expanded={barangayDropdownOpen}
+              onClick={() => setBarangayDropdownOpen((v) => !v)}
+            >
               <MapPin size={16} strokeWidth={1.8} aria-hidden="true" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem value="all">All Barangays</SelectItem>
-              {MATNOG_BARANGAYS.map((barangay) => (
-                <SelectItem key={barangay.code} value={barangay.code}>
-                  {barangay.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              <span>{selectedBarangayName}</span>
+              <ChevronDown size={14} aria-hidden="true" />
+            </button>
+            {barangayDropdownOpen && (
+              <div className={styles.barangayDropdown}>
+                <button
+                  className={`${styles.barangayOption} ${isAllSelected ? styles.barangayOptionActive : ""}`}
+                  type="button"
+                  onClick={selectAll}
+                >
+                  <span className={styles.barangayCheck}>{isAllSelected && <Check size={14} />}</span>
+                  All Barangays
+                </button>
+                {MATNOG_BARANGAYS.map((barangay) => {
+                  const selected = selectedBarangays.includes(barangay.code);
+                  return (
+                    <button
+                      key={barangay.code}
+                      className={`${styles.barangayOption} ${selected ? styles.barangayOptionActive : ""}`}
+                      type="button"
+                      onClick={() => toggleBarangay(barangay.code)}
+                    >
+                      <span className={styles.barangayCheck}>{selected && <Check size={14} />}</span>
+                      {barangay.name}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className={styles.headerActions}>
-          <button className={styles.iconButton} type="button" aria-label="Notifications" title="Notifications">
-            <Bell size={18} aria-hidden="true" />
-            <span className={styles.notificationDot} aria-hidden="true" />
-          </button>
+          <Link className={styles.iconButton} href="/barangay-affairs/residents/search" aria-label="Advanced Search" title="Advanced Search">
+            <Search size={18} aria-hidden="true" />
+          </Link>
           <button className={styles.iconButton} type="button" aria-label="Settings" title="Settings">
             <Settings size={18} aria-hidden="true" />
           </button>

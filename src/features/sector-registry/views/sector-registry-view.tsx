@@ -10,6 +10,7 @@ import { MATNOG_BARANGAYS } from "@/data/barangays";
 import styles from "@/features/resident-registry/components/resident-registry.module.css";
 import { useResidentRegistryStore } from "@/features/resident-registry/stores/resident-registry-store";
 import { calculateAge, formatResidentName } from "@/features/resident-registry/utils/resident-utils";
+import dashboardStyles from "@/features/resident-registry/views/resident-dashboard.module.css";
 import { useBarangayScope } from "@/shared/providers/barangay-scope-provider";
 
 import { useSectorRegistryStore } from "../stores/sector-registry-store";
@@ -63,136 +64,139 @@ export function SectorRegistryView({ slug }: { slug: string }) {
     );
   return (
     <div className={styles.page}>
-      <header className={styles.pageHeader}>
-        <div>
-          <p className={styles.eyebrow}>A3 Sectoral Registry</p>
-          <h1>{definition.name}</h1>
-          <p>{definition.description} Records remain connected to the permanent municipal resident identity.</p>
-        </div>
-        <div className={styles.headerButtonGroup}>
-          <Link className={styles.secondaryButton} href="/barangay-affairs/sectors">
-            <ArrowLeft size={15} /> Dashboard
-          </Link>
-          <Link className={styles.primaryButton} href={`/barangay-affairs/sectors/assign?sector=${definition.code}`}>
-            <Plus size={15} /> Add member
-          </Link>
-        </div>
-      </header>
-      <div className={styles.summaryGrid}>
-        <div className={styles.summaryCard}>
-          <span className={styles.summaryIcon} style={{ color: definition.color }}>
-            <UsersRound size={18} />
-          </span>
+      <section className={`${styles.hero} ${dashboardStyles.sectorHero}`}>
+        <div className={styles.heroInner}>
           <div>
-            <strong>{rows.length}</strong>
-            <span>Total members</span>
+            <h1>{definition.name}</h1>
+            <p>{definition.description} Records remain connected to the permanent municipal resident identity.</p>
           </div>
-        </div>
-        <div className={styles.summaryCard}>
-          <span className={styles.summaryIcon}>
-            <UsersRound size={18} />
-          </span>
-          <div>
-            <strong>{rows.filter(({ membership }) => membership.status === "Active").length}</strong>
-            <span>Active</span>
+          <div className={styles.heroActions}>
+            <Link className={styles.btnSecondary} href="/barangay-affairs/sectors">
+              <ArrowLeft size={15} /> Dashboard
+            </Link>
+            <Link className={styles.btnPrimary} href={`/barangay-affairs/sectors/assign?sector=${definition.code}`}>
+              <Plus size={15} /> Add member
+            </Link>
           </div>
-        </div>
-        <div className={styles.summaryCard}>
-          <span className={styles.summaryIcon}>
-            <UsersRound size={18} />
-          </span>
-          <div>
-            <strong>{rows.filter(({ membership }) => membership.status === "Pending Review").length}</strong>
-            <span>Pending review</span>
-          </div>
-        </div>
-        <div className={styles.summaryCard}>
-          <span className={styles.summaryIcon}>
-            <UsersRound size={18} />
-          </span>
-          <div>
-            <strong>{rows.filter(({ membership }) => membership.status === "Expired").length}</strong>
-            <span>Expired</span>
-          </div>
-        </div>
-      </div>
-      <section className={styles.card}>
-        <div className={styles.toolbar}>
-          <label className={styles.searchBox}>
-            <Search size={15} />
-            <input
-              aria-label={`Search ${definition.name}`}
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search resident name or LRN"
-            />
-          </label>
-          <select
-            className={styles.compactSelect}
-            aria-label="Sector member status"
-            value={status}
-            onChange={(event) => setStatus(event.target.value)}
-          >
-            <option value="">All statuses</option>
-            {["Active", "Pending Review", "Expired", "Inactive"].map((value) => (
-              <option key={value}>{value}</option>
-            ))}
-          </select>
-        </div>
-        <div className={styles.tableWrap}>
-          <table className={styles.table} style={{ minWidth: 1080 }}>
-            <thead>
-              <tr>
-                <th>Reference</th>
-                <th>Resident</th>
-                <th>LRN</th>
-                <th>Barangay</th>
-                <th>Age</th>
-                <th>Validity</th>
-                <th>Documents</th>
-                <th>Issuing Office</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map(({ membership, resident }) =>
-                resident ? (
-                  <tr key={membership.id}>
-                    <td className={styles.mono}>{membership.referenceNumber}</td>
-                    <td>
-                      <strong>{formatResidentName(resident)}</strong>
-                    </td>
-                    <td className={styles.mono}>{resident.lrn}</td>
-                    <td>{MATNOG_BARANGAYS.find((item) => item.code === resident.address.barangayId)?.name}</td>
-                    <td>{calculateAge(resident.birthDate)}</td>
-                    <td>
-                      {membership.validityStart} – {membership.validityEnd || "Age-based"}
-                    </td>
-                    <td>{membership.supportingDocuments.length}</td>
-                    <td>{membership.issuingOffice}</td>
-                    <td>
-                      <span
-                        className={`${styles.badge} ${membership.status === "Active" ? styles.active : membership.status === "Expired" ? styles.danger : styles.warning}`}
-                      >
-                        {membership.status}
-                      </span>
-                    </td>
-                    <td>
-                      <Link
-                        className={styles.secondaryButton}
-                        href={`/barangay-affairs/sectors/residents/${resident.id}`}
-                      >
-                        View
-                      </Link>
-                    </td>
-                  </tr>
-                ) : null,
-              )}
-            </tbody>
-          </table>
         </div>
       </section>
+      <div className={styles.body}>
+        <div className={styles.summaryGrid}>
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryIcon} style={{ color: definition.color }}>
+              <UsersRound size={18} />
+            </span>
+            <div>
+              <strong>{rows.length}</strong>
+              <span>Total members</span>
+            </div>
+          </div>
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryIcon}>
+              <UsersRound size={18} />
+            </span>
+            <div>
+              <strong>{rows.filter(({ membership }) => membership.status === "Active").length}</strong>
+              <span>Active</span>
+            </div>
+          </div>
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryIcon}>
+              <UsersRound size={18} />
+            </span>
+            <div>
+              <strong>{rows.filter(({ membership }) => membership.status === "Pending Review").length}</strong>
+              <span>Pending review</span>
+            </div>
+          </div>
+          <div className={styles.summaryCard}>
+            <span className={styles.summaryIcon}>
+              <UsersRound size={18} />
+            </span>
+            <div>
+              <strong>{rows.filter(({ membership }) => membership.status === "Expired").length}</strong>
+              <span>Expired</span>
+            </div>
+          </div>
+        </div>
+        <section className={styles.card}>
+          <div className={styles.toolbar}>
+            <label className={styles.searchBox}>
+              <Search size={15} />
+              <input
+                aria-label={`Search ${definition.name}`}
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Search resident name or LRN"
+              />
+            </label>
+            <select
+              className={styles.compactSelect}
+              aria-label="Sector member status"
+              value={status}
+              onChange={(event) => setStatus(event.target.value)}
+            >
+              <option value="">All statuses</option>
+              {["Active", "Pending Review", "Expired", "Inactive"].map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.tableWrap}>
+            <table className={styles.table} style={{ minWidth: 1080 }}>
+              <thead>
+                <tr>
+                  <th>Reference</th>
+                  <th>Resident</th>
+                  <th>LRN</th>
+                  <th>Barangay</th>
+                  <th>Age</th>
+                  <th>Validity</th>
+                  <th>Documents</th>
+                  <th>Issuing Office</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map(({ membership, resident }) =>
+                  resident ? (
+                    <tr key={membership.id}>
+                      <td className={styles.mono}>{membership.referenceNumber}</td>
+                      <td>
+                        <strong>{formatResidentName(resident)}</strong>
+                      </td>
+                      <td className={styles.mono}>{resident.lrn}</td>
+                      <td>{MATNOG_BARANGAYS.find((item) => item.code === resident.address.barangayId)?.name}</td>
+                      <td>{calculateAge(resident.birthDate)}</td>
+                      <td>
+                        {membership.validityStart} – {membership.validityEnd || "Age-based"}
+                      </td>
+                      <td>{membership.supportingDocuments.length}</td>
+                      <td>{membership.issuingOffice}</td>
+                      <td>
+                        <span
+                          className={`${styles.badge} ${membership.status === "Active" ? styles.active : membership.status === "Expired" ? styles.danger : styles.warning}`}
+                        >
+                          {membership.status}
+                        </span>
+                      </td>
+                      <td>
+                        <Link
+                          className={styles.secondaryButton}
+                          href={`/barangay-affairs/sectors/residents/${resident.id}`}
+                        >
+                          View
+                        </Link>
+                      </td>
+                    </tr>
+                  ) : null,
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

@@ -12,6 +12,7 @@ type BusinessRegistryState = {
   businesses: BusinessRecord[];
   payments: BusinessPayment[];
   registerBusiness: (input: NewBusinessInput) => BusinessRecord;
+  updateBusiness: (id: string, input: NewBusinessInput) => BusinessRecord | undefined;
   assessBusiness: (id: string, amount: number) => void;
   issueClearance: (id: string) => BusinessRecord | undefined;
   collectPayment: (
@@ -52,6 +53,13 @@ export const useBusinessRegistryStore = create<BusinessRegistryState>((set, get)
     };
     set((state) => ({ businesses: [business, ...state.businesses] }));
     return business;
+  },
+  updateBusiness: (id, input) => {
+    const current = get().businesses.find((item) => item.id === id);
+    if (!current) return undefined;
+    const updated: BusinessRecord = { ...current, ...input, updatedAt: new Date().toISOString() };
+    set((state) => ({ businesses: state.businesses.map((item) => (item.id === id ? updated : item)) }));
+    return updated;
   },
   assessBusiness: (id, amount) => {
     const now = new Date().toISOString();

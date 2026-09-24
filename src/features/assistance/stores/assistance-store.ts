@@ -16,7 +16,7 @@ type AssistanceState = {
   addAssistance: (input: AssistanceInput) => { record?: AssistanceRecord; eligibility: EligibilityResult };
   releaseAssistance: (id: string) => void;
   reviewDuplicate: (id: string, outcome: "Cleared" | "Confirmed", note: string) => void;
-  markLiquidated: (id: string) => void;
+  markLiquidated: (id: string, details: { remarks: string; performedBy: string; attachmentName: string }) => void;
 };
 
 const residents = createResidentDummyData(1200);
@@ -80,6 +80,9 @@ export const useAssistanceStore = create<AssistanceState>((set, get) => ({
       liquidatedAmount: 0,
       liquidationDate: "",
       liquidationDocuments: [],
+      liquidationRemarks: "",
+      liquidatedBy: "",
+      liquidationAttachment: "",
       coolingEndsAt: coolingEndsAt.toISOString().slice(0, 10),
       duplicateFlag: false,
       matchedRecordId: "",
@@ -126,7 +129,7 @@ export const useAssistanceStore = create<AssistanceState>((set, get) => ({
           : item,
       ),
     })),
-  markLiquidated: (id) =>
+  markLiquidated: (id, details) =>
     set((state) => ({
       records: state.records.map((item) =>
         item.id === id
@@ -135,7 +138,10 @@ export const useAssistanceStore = create<AssistanceState>((set, get) => ({
               liquidationStatus: "Liquidated",
               liquidatedAmount: item.amount,
               liquidationDate: new Date().toISOString().slice(0, 10),
-              liquidationDocuments: ["Disbursement voucher", "Acknowledgement receipt", "Liquidation report"],
+              liquidationDocuments: [...item.liquidationDocuments, details.attachmentName],
+              liquidationRemarks: details.remarks.trim(),
+              liquidatedBy: details.performedBy,
+              liquidationAttachment: details.attachmentName,
             }
           : item,
       ),

@@ -1,5 +1,5 @@
-import { BusinessRegistrationView } from "@/features/business-registry/views/business-views";
+import { BusinessRegistrationWizard } from "@/features/business-registry/views/business-registration-view";
 
 export default function BusinessRegistrationPage() {
-  return <BusinessRegistrationView />;
+  return <BusinessRegistrationWizard />;
 }

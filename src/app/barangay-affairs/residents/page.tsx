@@ -1,4 +1,5 @@
-import { redirect } from "next/navigation";
+import { ResidentDashboardView } from "@/features/resident-registry/views/resident-dashboard-view";
+
 export default function Page() {
-  redirect("/barangay-affairs/residents/masterlist");
+  return <ResidentDashboardView />;
 }

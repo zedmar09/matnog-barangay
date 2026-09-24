@@ -39,17 +39,22 @@ type DocumentState = {
     id: string,
     status: IssuedDocumentStatus,
     note: string,
-    actor?: string,
+    actor: string,
   ) => IssuedDocument | undefined;
-  verifyPayment: (id: string, receipt: string, amount: number) => IssuedDocument | undefined;
-  releaseDocument: (id: string, releasedTo: string, note: string) => IssuedDocument | undefined;
-  requestReprint: (documentId: string, reason: string, requestedBy: string) => ReprintRequest | undefined;
+  verifyPayment: (id: string, receipt: string, amount: number, actor: string) => IssuedDocument | undefined;
+  releaseDocument: (id: string, releasedTo: string, note: string, actor: string) => IssuedDocument | undefined;
+  requestReprint: (
+    documentId: string,
+    reason: string,
+    requestedBy: string,
+    actor: string,
+  ) => ReprintRequest | undefined;
   updateReprintStatus: (
     id: string,
     status: "Approved" | "Printed" | "Rejected",
     reviewer: string,
   ) => ReprintRequest | undefined;
-  revokeDocument: (documentId: string, reason: string) => RevocationRecord | undefined;
+  revokeDocument: (documentId: string, reason: string, actor: string) => RevocationRecord | undefined;
 };
 
 const rawDocuments = createIssuedDocumentDummyData(createResidentDummyData(1200));
@@ -119,9 +124,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     set((state) => ({ documents: [document, ...state.documents] }));
     return document;
   },
-  updateDocumentStatus: (id, status, note, actor = "Barangay Document Officer") => {
+  updateDocumentStatus: (id, status, note, actor) => {
     const current = get().documents.find((item) => item.id === id);
-    if (!current || !note.trim()) return undefined;
+    if (!current || !note.trim() || !actor.trim()) return undefined;
     const now = new Date().toISOString();
     const updated: IssuedDocument = {
       ...current,
@@ -136,9 +141,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     set((state) => ({ documents: state.documents.map((item) => (item.id === id ? updated : item)) }));
     return updated;
   },
-  verifyPayment: (id, receipt, amount) => {
+  verifyPayment: (id, receipt, amount, actor) => {
     const current = get().documents.find((item) => item.id === id);
-    if (!current || !receipt.trim()) return undefined;
+    if (!current || !receipt.trim() || !actor.trim()) return undefined;
     const now = new Date().toISOString();
     const updated: IssuedDocument = {
       ...current,
@@ -151,7 +156,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         {
           id: `document-audit-${Date.now()}`,
           action: "Payment verified",
-          actor: "Barangay Treasurer",
+          actor: actor.trim(),
           note: `Official receipt ${receipt.trim()} verified for ₱${amount.toFixed(2)}.`,
           occurredAt: now,
         },
@@ -160,10 +165,16 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     set((state) => ({ documents: state.documents.map((item) => (item.id === id ? updated : item)) }));
     return updated;
   },
-  releaseDocument: (id, releasedTo, note) => {
+  releaseDocument: (id, releasedTo, note, actor) => {
     const current = get().documents.find((item) => item.id === id);
     const template = current ? get().templates.find((item) => item.code === current.templateCode) : undefined;
-    if (!current || !releasedTo.trim() || !note.trim() || (template?.requiresOr && !current.paymentVerified))
+    if (
+      !current ||
+      !releasedTo.trim() ||
+      !note.trim() ||
+      !actor.trim() ||
+      (template?.requiresOr && !current.paymentVerified)
+    )
       return undefined;
     const now = new Date().toISOString();
     const updated: IssuedDocument = {
@@ -178,7 +189,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         {
           id: `document-audit-${Date.now()}`,
           action: "Released",
-          actor: "Barangay Releasing Officer",
+          actor: actor.trim(),
           note: `${note.trim()} Released to ${releasedTo.trim()}.`,
           occurredAt: now,
         },
@@ -187,9 +198,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     set((state) => ({ documents: state.documents.map((item) => (item.id === id ? updated : item)) }));
     return updated;
   },
-  requestReprint: (documentId, reason, requestedBy) => {
+  requestReprint: (documentId, reason, requestedBy, actor) => {
     const document = get().documents.find((item) => item.id === documentId);
-    if (document?.status !== "Released" || !reason.trim() || !requestedBy.trim()) return undefined;
+    if (document?.status !== "Released" || !reason.trim() || !requestedBy.trim() || !actor.trim()) return undefined;
     const now = new Date().toISOString();
     const request: ReprintRequest = {
       id: `reprint-session-${get().reprintRequests.length + 1}`,
@@ -201,7 +212,27 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       reviewedAt: "",
       reviewedBy: "",
     };
-    set((state) => ({ reprintRequests: [request, ...state.reprintRequests] }));
+    set((state) => ({
+      reprintRequests: [request, ...state.reprintRequests],
+      documents: state.documents.map((item) =>
+        item.id === documentId
+          ? {
+              ...item,
+              updatedAt: now,
+              auditTrail: [
+                ...item.auditTrail,
+                {
+                  id: `document-audit-${Date.now()}`,
+                  action: "Reprint requested",
+                  actor: actor.trim(),
+                  note: `${reason.trim()} Requested by ${requestedBy.trim()}.`,
+                  occurredAt: now,
+                },
+              ],
+            }
+          : item,
+      ),
+    }));
     return request;
   },
   updateReprintStatus: (id, status, reviewer) => {
@@ -235,16 +266,16 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     }));
     return updated;
   },
-  revokeDocument: (documentId, reason) => {
+  revokeDocument: (documentId, reason, actor) => {
     const document = get().documents.find((item) => item.id === documentId);
-    if (document?.status !== "Released" || !reason.trim()) return undefined;
+    if (document?.status !== "Released" || !reason.trim() || !actor.trim()) return undefined;
     const now = new Date().toISOString();
     const record: RevocationRecord = {
       id: `revocation-session-${get().revocations.length + 1}`,
       documentId,
       reason: reason.trim(),
       revokedAt: now,
-      revokedBy: "Punong Barangay",
+      revokedBy: actor.trim(),
     };
     set((state) => ({
       revocations: [record, ...state.revocations],
@@ -260,7 +291,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
                 {
                   id: `document-audit-${Date.now()}`,
                   action: "Revoked",
-                  actor: "Punong Barangay",
+                  actor: actor.trim(),
                   note: reason.trim(),
                   occurredAt: now,
                 },

@@ -4,7 +4,7 @@ import { create } from "zustand";
 
 import { MATNOG_BARANGAYS } from "@/data/barangays";
 
-import { createDuplicateCandidates } from "../data/duplicate-dummy-data";
+import { createDuplicateCandidates, createMergeLogs } from "../data/duplicate-dummy-data";
 import { createIdentityMedia, createIdentityMediaReviews } from "../data/identity-media-dummy-data";
 import { createLifeEventDummyData } from "../data/life-event-dummy-data";
 import { createResidentDummyData } from "../data/resident-dummy-data";
@@ -89,7 +89,7 @@ export const useResidentRegistryStore = create<ResidentRegistryState>((set, get)
   selectedBarangay: "all",
   nextLrnSequence: initialResidents.length + 1,
   duplicateCandidates: createDuplicateCandidates(initialResidents),
-  mergeLogs: [],
+  mergeLogs: createMergeLogs(initialResidents),
   transfers: createTransferDummyData(initialResidents),
   residencyHistory: createResidencyHistory(initialResidents),
   lifeEvents: createLifeEventDummyData(initialResidents),

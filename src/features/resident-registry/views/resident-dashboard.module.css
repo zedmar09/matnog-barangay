@@ -1,0 +1,350 @@
+.page {
+  min-width: 0;
+  color: #203936;
+}
+
+/* Hero banner */
+.hero {
+  background:
+    linear-gradient(90deg, rgba(9, 60, 48, 0.9), rgba(11, 72, 55, 0.6) 55%, rgba(15, 65, 50, 0.4)),
+    url("/images/residents-banner.webp") center 48% / cover;
+  color: #fff;
+}
+
+.sectorHero {
+  background:
+    linear-gradient(90deg, rgba(9, 60, 48, 0.88), rgba(11, 72, 55, 0.55) 56%, rgba(15, 65, 50, 0.2)),
+    url("/images/citizen.jpg") center 44% / cover;
+}
+
+.documentHero {
+  background:
+    linear-gradient(90deg, rgba(9, 54, 48, 0.9), rgba(14, 75, 66, 0.56) 56%, rgba(18, 75, 64, 0.18)),
+    url("/images/documents.jpeg") center 48% / cover;
+}
+
+.assistanceHero {
+  background:
+    linear-gradient(90deg, rgba(9, 54, 48, 0.91), rgba(14, 75, 66, 0.58) 56%, rgba(18, 75, 64, 0.2)),
+    url("/images/assistance.jpg") center 48% / cover;
+}
+
+.heroInner {
+  display: flex;
+  min-height: 200px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 32px 32px 56px;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.hero p {
+  margin: 6px 0 0;
+  color: #d7ece2;
+  font-size: 13px;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 18px;
+  background: #fff;
+  color: #155e32;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 150ms;
+}
+
+.btnPrimary:hover {
+  background: #e8f5ee;
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 9px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 150ms;
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.body {
+  padding: 0 24px 24px;
+  margin-top: -32px;
+  position: relative;
+}
+
+/* Summary cards */
+.summaryRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.card {
+  padding: 18px 20px;
+  border: 1px solid #e2ebe9;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cardLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: #5f7a77;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cardLabel svg {
+  flex: none;
+}
+
+.cardValue {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #1a3331;
+  line-height: 1;
+}
+
+.cardSub {
+  margin-top: 6px;
+  color: #8fa09d;
+  font-size: 11px;
+}
+
+/* Chart grid */
+.chartGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.chartCard {
+  padding: 20px;
+  border: 1px solid #e2ebe9;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.chartCardFull {
+  grid-column: 1 / -1;
+}
+
+.chartRow3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  grid-column: 1 / -1;
+}
+
+.chartTitle {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: #1a3331;
+}
+
+.chartSubtitle {
+  margin: -12px 0 16px;
+  color: #8fa09d;
+  font-size: 11px;
+}
+
+/* Barangay breakdown table */
+.breakdownCard {
+  padding: 20px;
+  border: 1px solid #e2ebe9;
+  border-radius: 12px;
+  background: #fff;
+  grid-column: 1 / -1;
+}
+
+.breakdownTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.breakdownTable th {
+  padding: 10px 12px;
+  border-bottom: 2px solid #e2ebe9;
+  color: #5f7a77;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.breakdownTable th:not(:first-child) {
+  text-align: right;
+}
+
+.breakdownTable td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #f0f5f3;
+  color: #2a4744;
+}
+
+.breakdownTable td:not(:first-child) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdownTable tbody tr:hover {
+  background: #f6faf9;
+}
+
+.barangayName {
+  font-weight: 550;
+}
+
+.miniBar {
+  display: inline-block;
+  height: 6px;
+  border-radius: 3px;
+  background: #159488;
+  vertical-align: middle;
+  margin-right: 8px;
+  transition: width 300ms ease;
+}
+
+/* Legend */
+.legendRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #5f7a77;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+
+@media (max-width: 900px) {
+  .chartGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chartRow3 {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .body {
+    padding: 0 16px 16px;
+  }
+
+  .heroInner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 16px 48px;
+  }
+
+  .summaryRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.legendLabel {
+  color: #5f7a77;
+  font-size: 11px;
+}
+
+.reportTooltip {
+  display: grid;
+  min-width: 190px;
+  gap: 8px;
+  border: 1px solid #cfdedb;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgb(21 63 58 / 18%);
+  color: #4c6662;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.reportTooltip > strong {
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e7efed;
+  color: #173c37;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.reportTooltip span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reportTooltip i {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+}
+
+.reportTooltip b {
+  margin-left: auto;
+  color: #173c37;
+  font-size: 14px;
+  font-weight: 750;
+}

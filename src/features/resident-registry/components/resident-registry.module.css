@@ -1,8 +1,94 @@
 .page {
-  padding: 24px;
   min-width: 0;
   color: #203936;
 }
+
+/* Hero banner */
+.hero {
+  background:
+    linear-gradient(90deg, rgba(9, 60, 48, 0.9), rgba(11, 72, 55, 0.6) 55%, rgba(15, 65, 50, 0.4)),
+    url("/images/residents-banner.webp") center 48% / cover;
+  color: #fff;
+}
+.householdHero {
+  background:
+    linear-gradient(90deg, rgba(9, 60, 48, 0.86), rgba(11, 72, 55, 0.48) 56%, rgba(15, 65, 50, 0.16)),
+    url("/images/household.jpg") center 48% / cover;
+}
+.assistanceHero {
+  background:
+    linear-gradient(90deg, rgba(9, 54, 48, 0.9), rgba(14, 75, 66, 0.56) 56%, rgba(18, 75, 64, 0.18)),
+    url("/images/assistance.jpg") center 48% / cover;
+}
+.heroInner {
+  display: flex;
+  min-height: 200px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 32px 32px 56px;
+}
+.hero h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+.hero p {
+  margin: 6px 0 0;
+  color: #d7ece2;
+  font-size: 13px;
+}
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 18px;
+  background: #fff;
+  color: #155e32;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 150ms;
+}
+.btnPrimary:hover {
+  background: #e8f5ee;
+}
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 9px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 150ms;
+}
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.body {
+  padding: 0 24px 24px;
+  margin-top: -32px;
+  position: relative;
+}
+
 .pageHeader {
   display: flex;
   align-items: flex-start;
@@ -28,6 +114,19 @@
   margin: 5px 0 0;
   color: #718582;
   font-size: 12px;
+}
+
+/* Barangay scope badge */
+.scopeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #e8f5f2;
+  color: #147c73;
+  font-size: 11px;
+  font-weight: 600;
 }
 .primaryButton,
 .secondaryButton,
@@ -64,6 +163,21 @@
   border-color: #f1caca;
   background: #fff;
   color: #b84141;
+}
+.iconAction {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 8px;
+  color: #4a6663;
+  transition:
+    background 120ms,
+    color 120ms;
+}
+.iconAction:hover {
+  background: #e8f5f2;
+  color: #158f84;
 }
 .card {
   border: 1px solid #dfe9e7;
@@ -218,28 +332,28 @@
 }
 .table {
   width: 100%;
-  min-width: 1700px;
+  min-width: 1200px;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 11px;
+  font-size: 13px;
 }
 .table th {
   position: sticky;
   top: 0;
   z-index: 2;
-  height: 38px;
-  padding: 0 9px;
+  height: 40px;
+  padding: 0 10px;
   border-bottom: 1px solid #dce7e5;
   background: #f6faf9;
   color: #607370;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 650;
   text-align: left;
   white-space: nowrap;
 }
 .table td {
-  height: 47px;
-  padding: 5px 9px;
+  height: 48px;
+  padding: 6px 10px;
   border-bottom: 1px solid #edf2f1;
   color: #344d49;
   white-space: nowrap;
@@ -458,6 +572,10 @@
 .formShell {
   max-width: 1180px;
 }
+.formCentered {
+  max-width: 1080px;
+  margin: 0 auto;
+}
 .formCard {
   padding: 0;
 }
@@ -465,6 +583,52 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   border-bottom: 1px solid #e3ecea;
+}
+.stepperFour {
+  grid-template-columns: repeat(4, 1fr);
+}
+.requiredMark {
+  color: #dc2626;
+  font-weight: 700;
+}
+.inlineCreateLink {
+  display: inline-flex;
+  align-items: center;
+  color: #147c73;
+  font-size: 11px;
+  font-weight: 550;
+  text-decoration: none;
+}
+.fieldLabelRow {
+  display: flex;
+  min-height: 18px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.fieldLabelRow > span {
+  color: #586e6b;
+  font-size: 11px;
+  font-weight: 550;
+}
+.inlineCreateLink:hover {
+  text-decoration: underline;
+}
+.structureSelection {
+  margin-top: 18px;
+}
+.reviewFieldValue {
+  display: flex;
+  min-height: 37px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid #d7e3e0;
+  border-radius: 8px;
+  background: #f8fbfa;
+  color: #253d3b;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 .step {
   display: flex;
@@ -566,35 +730,110 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
-.reviewCard,
+.reviewCard {
+  padding: 15px;
+  border: 1px solid #e0eae8;
+  border-radius: 10px;
+}
+.reviewCard h3 {
+  margin: 0 0 12px;
+  font-size: 13px;
+}
 .detailCard {
   padding: 15px;
   border: 1px solid #e0eae8;
   border-radius: 10px;
 }
-.reviewCard h3,
 .detailCard h3 {
   margin: 0 0 12px;
   font-size: 13px;
 }
+.detailCardStyled {
+  border: 1px solid #dfe9e7;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+.detailCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e5edeb;
+  background: #f8fbfa;
+}
+.detailCardIcon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  place-items: center;
+  border-radius: 8px;
+  background: #e3f2ef;
+  color: #158f84;
+}
+.detailCardHeader h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  color: #1a3331;
+  letter-spacing: -0.01em;
+}
+.detailCardBody {
+  padding: 18px;
+}
+.idPreviewHeader {
+  justify-content: space-between;
+}
+.idPreviewCard {
+  margin-bottom: 14px;
+}
+.idPreviewHeader > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.idPreviewHeader > div > div {
+  display: grid;
+  gap: 2px;
+}
+.idPreviewHeader p {
+  margin: 0;
+  color: #768985;
+  font-size: 10px;
+}
+.idPreviewBody {
+  padding: 26px;
+}
+.idActionCardBody {
+  display: grid;
+  gap: 14px;
+}
+.idActionCardBody > p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
 .dataList {
   display: grid;
-  gap: 9px;
+  gap: 12px;
   margin: 0;
 }
 .dataRow {
   display: grid;
-  grid-template-columns: 140px 1fr;
+  grid-template-columns: 160px 1fr;
   gap: 12px;
+  align-items: baseline;
 }
 .dataRow dt {
-  color: #7b8d8a;
-  font-size: 10px;
+  color: #6b7f7c;
+  font-size: 12px;
+  font-weight: 500;
 }
 .dataRow dd {
   margin: 0;
-  color: #2e4845;
-  font-size: 11px;
+  color: #1e3b38;
+  font-size: 13px;
   font-weight: 500;
   overflow-wrap: anywhere;
 }
@@ -610,12 +849,12 @@
 }
 .profileIdentity h1 {
   margin: 0 0 4px;
-  font-size: 22px;
+  font-size: 24px;
 }
 .profileIdentity p {
   margin: 0;
   color: #6e817e;
-  font-size: 12px;
+  font-size: 13px;
 }
 .badgeRow {
   display: flex;
@@ -637,7 +876,7 @@
   border-bottom: 2px solid transparent;
   background: none;
   color: #6c807d;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
 }
 .tabActive {
@@ -646,7 +885,7 @@
   font-weight: 600;
 }
 .profileBody {
-  padding: 16px;
+  padding: 18px;
 }
 .toast {
   margin-bottom: 12px;
@@ -707,6 +946,11 @@
   display: flex;
   gap: 3px;
   margin-bottom: 12px;
+}
+.queueTabsInline {
+  display: flex;
+  gap: 3px;
+  margin-right: auto;
 }
 .queueTab {
   display: inline-flex;
@@ -780,11 +1024,11 @@
 }
 .comparisonPerson strong {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
 }
 .comparisonPerson span {
   color: #738683;
-  font-size: 10px;
+  font-size: 12px;
 }
 .comparisonTable {
   display: grid;
@@ -799,16 +1043,16 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 10px 14px;
   border-left: 1px solid #e7eeec;
-  font-size: 11px;
+  font-size: 13px;
   overflow-wrap: anywhere;
 }
 .comparisonRow > div:first-child {
   border-left: 0;
   background: #fbfdfc;
   color: #6b7f7c;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 .valueChoice input {
@@ -842,28 +1086,65 @@
 .decisionPanel {
   position: sticky;
   top: 82px;
-  padding: 16px;
+  padding: 18px;
 }
 .decisionPanel h2 {
   margin: 0 0 5px;
-  font-size: 15px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a3331;
 }
 .decisionPanel > p {
   margin: 0 0 14px;
   color: #718481;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.55;
+}
+.reviewerAssign {
+  margin-bottom: 4px;
+}
+.reviewerLabel {
+  display: block;
+  margin-bottom: 6px;
+  color: #3c5653;
+  font-size: 12px;
+  font-weight: 650;
+}
+.reviewerRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.reviewerSelect {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  border: 1px solid #d7e3e0;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.assignedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #e8f5f2;
+  color: #147c73;
+  font-size: 12px;
+  font-weight: 600;
 }
 .decisionOption {
   display: flex;
   align-items: flex-start;
   gap: 9px;
   margin-bottom: 8px;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #dce7e5;
   border-radius: 8px;
   color: #39514e;
-  font-size: 11px;
+  font-size: 13px;
   cursor: pointer;
 }
 .decisionOption:has(input:checked) {
@@ -886,11 +1167,11 @@
   width: 100%;
   min-height: 82px;
   margin: 9px 0;
-  padding: 9px 10px;
+  padding: 10px 12px;
   border: 1px solid #d7e3e0;
   border-radius: 8px;
   font: inherit;
-  font-size: 11px;
+  font-size: 13px;
   resize: vertical;
 }
 .buttonStack {
@@ -916,12 +1197,12 @@
 }
 .auditItem strong {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
 }
 .auditItem p {
   margin: 2px 0;
   color: #718582;
-  font-size: 10px;
+  font-size: 11px;
 }
 .mergeBanner {
   display: flex;
@@ -936,10 +1217,10 @@
 }
 .mergeBanner strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
 }
 .mergeBanner span {
-  font-size: 10px;
+  font-size: 12px;
 }
 .historyDetail {
   display: grid;
@@ -1063,6 +1344,22 @@
   max-width: 100%;
   max-height: 250px;
   object-fit: contain;
+}
+.mediaMeta {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #e5edeb;
+}
+.mediaMetaTitle {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #2a4542;
+}
+.mediaAction {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #e5edeb;
 }
 .idCardGrid {
   display: grid;
@@ -1763,6 +2060,40 @@
   border-radius: 12px;
   background: linear-gradient(145deg, #d9eee9, #f2f7ef);
 }
+
+.leafletMap {
+  width: 100%;
+  height: 340px;
+  border: 1px solid #dce8e5;
+  border-radius: 12px;
+  background: #e8f3f1;
+  z-index: 0;
+}
+
+.leafletMapLoading {
+  display: grid;
+  min-height: 340px;
+  place-items: center;
+  border: 1px solid #dce8e5;
+  border-radius: 12px;
+  background: #f2f8f6;
+  color: #66817c;
+  font-size: 13px;
+}
+.structureInventoryMap {
+  width: 100%;
+  height: 650px;
+  background: #e8f3f1;
+  z-index: 0;
+}
+.structureInventoryMapLoading {
+  display: grid;
+  min-height: 650px;
+  place-items: center;
+  background: #f2f8f6;
+  color: #66817c;
+  font-size: 13px;
+}
 .structureMapPreview::before,
 .structureMapPreview::after {
   position: absolute;
@@ -2239,25 +2570,32 @@
   display: flex;
   min-width: 0;
   align-items: flex-start;
-  gap: 10px;
-  padding: 12px;
+  gap: 12px;
+  padding: 15px;
   border: 1px solid #dfe9e7;
-  border-radius: 9px;
+  border-radius: 11px;
   background: #fbfdfc;
   color: #304a47;
   text-decoration: none;
+  transition:
+    border-color 150ms,
+    background 150ms,
+    box-shadow 150ms,
+    transform 150ms;
 }
 .sectorCard:hover {
   border-color: #acd6d0;
   background: #f4faf8;
+  box-shadow: 0 7px 18px rgb(31 87 80 / 8%);
+  transform: translateY(-1px);
 }
 .sectorCard > span {
   display: grid;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   flex: none;
   place-items: center;
-  border-radius: 9px;
+  border-radius: 11px;
   color: #fff;
 }
 .sectorCard > div {
@@ -2267,22 +2605,53 @@
 }
 .sectorCard h3 {
   margin: 0;
-  font-size: 11px;
+  color: #203e39;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 .sectorCard p {
-  min-height: 28px;
-  margin: 2px 0;
+  min-height: 34px;
+  margin: 4px 0 8px;
   color: #748784;
-  font-size: 8px;
-  line-height: 1.45;
+  font-size: 10px;
+  line-height: 1.5;
 }
-.sectorCard strong {
-  color: #24433f;
-  font-size: 11px;
+.sectorMetricRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 9px;
+  border-top: 1px solid #e5eeec;
 }
-.sectorCard small {
-  color: #839491;
-  font-size: 8px;
+.sectorPrimaryMetric {
+  display: grid;
+  gap: 1px;
+}
+.sectorPrimaryMetric strong {
+  color: #173c37;
+  font-size: 20px;
+  font-weight: 750;
+  line-height: 1;
+}
+.sectorPrimaryMetric small {
+  color: #718783;
+  font-size: 9px;
+  font-weight: 550;
+}
+.sectorPendingMetric {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: #fff2d9;
+  color: #956018;
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
 }
 .sectorBadges {
   display: flex;
@@ -2522,8 +2891,13 @@
   .inlineForm input {
     min-width: 0;
   }
-  .page {
-    padding: 14px;
+  .body {
+    padding: 0 14px 14px;
+  }
+  .heroInner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 16px 48px;
   }
   .pageHeader {
     align-items: stretch;

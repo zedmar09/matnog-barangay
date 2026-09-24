@@ -26,6 +26,9 @@ export type AssistanceRecord = {
   liquidatedAmount: number;
   liquidationDate: string;
   liquidationDocuments: string[];
+  liquidationRemarks: string;
+  liquidatedBy: string;
+  liquidationAttachment: string;
   coolingEndsAt: string;
   duplicateFlag: boolean;
   matchedRecordId: string;

@@ -10,7 +10,9 @@ import {
   ChevronRight,
   ChevronsUpDown,
   Columns3,
+  Download,
   Filter,
+  MapPin,
   MoreHorizontal,
   Search,
   UserPlus,
@@ -20,6 +22,13 @@ import {
 
 import { MATNOG_BARANGAYS } from "@/data/barangays";
 import { useBarangayScope } from "@/shared/providers/barangay-scope-provider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 
 import styles from "../components/resident-registry.module.css";
 import { useResidentRegistryStore } from "../stores/resident-registry-store";
@@ -38,6 +47,7 @@ const columns = [
   "photo",
   "lrn",
   "name",
+  "nickname",
   "barangay",
   "gender",
   "birthDate",
@@ -59,6 +69,7 @@ const labels: Record<Column, string> = {
   photo: "Photo",
   lrn: "LRN",
   name: "Full Name",
+  nickname: "Alias",
   barangay: "Barangay",
   gender: "Gender",
   birthDate: "Birth Date",
@@ -76,6 +87,7 @@ const labels: Record<Column, string> = {
   actions: "Actions",
 };
 const fixed = new Set<Column>(["lrn", "name", "actions"]);
+const defaultHidden = new Set<Column>(["photo", "location", "address", "updated", "occupation", "nickname", "citizenship"]);
 const sortable: Partial<Record<Column, ResidentSortKey>> = {
   lrn: "lrn",
   name: "name",
@@ -98,35 +110,42 @@ function statusClass(status: string) {
         ? styles.warning
         : "";
 }
+
 function Field({
   label,
   value,
   onChange,
   type = "text",
+  placeholder,
   children,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   type?: string;
+  placeholder?: string;
   children?: React.ReactNode;
 }) {
   return (
     // biome-ignore lint/a11y/noLabelWithoutControl: the reusable control is supplied directly or through children.
     <label className={styles.field}>
       <span>{label}</span>
-      {children ?? <input type={type} value={value} onChange={(e) => onChange(e.target.value)} />}
+      {children ?? <input type={type} value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} />}
     </label>
   );
 }
 
 export function ResidentMasterlistView() {
   const residents = useResidentRegistryStore((s) => s.residents);
-  const { selectedBarangay, selectedBarangayName } = useBarangayScope();
+  const { selectedBarangay, selectedBarangayName, isAllSelected, selectedBarangays } = useBarangayScope();
   const [filters, setFilters] = useState<ResidentFilters>(EMPTY_FILTERS);
   const [more, setMore] = useState(false);
   const [columnsOpen, setColumnsOpen] = useState(false);
-  const [visible, setVisible] = useState<Set<Column>>(new Set(columns));
+  const [visible, setVisible] = useState<Set<Column>>(() => {
+    const initial = new Set(columns as readonly Column[]);
+    for (const c of defaultHidden) initial.delete(c);
+    return initial;
+  });
   const [sortKey, setSortKey] = useState<ResidentSortKey>("name");
   const [direction, setDirection] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState(1);
@@ -175,18 +194,32 @@ export function ResidentMasterlistView() {
     setPage(1);
   };
 
+  const barangayScopeBadge = isAllSelected
+    ? "All Barangays"
+    : selectedBarangays.length === 1
+      ? selectedBarangayName
+      : `${selectedBarangays.length} Barangays`;
+
   return (
     <div className={styles.page}>
-      <header className={styles.pageHeader}>
-        <div>
-          <p className={styles.eyebrow}>A1 Resident Registry</p>
-          <h1>Resident Masterlist</h1>
-          <p>Search, review, and maintain the municipality’s resident identity records.</p>
+      <section className={styles.hero}>
+        <div className={styles.heroInner}>
+          <div>
+            <h1>Resident Masterlist</h1>
+            <p>Search, review, and maintain the municipality&#39;s resident identity records.</p>
+          </div>
+          <div className={styles.heroActions}>
+            <Link className={styles.btnPrimary} href="/barangay-affairs/residents/register">
+              <UserPlus size={16} /> Register Resident
+            </Link>
+            <button type="button" className={styles.btnSecondary}>
+              <Download size={16} /> Export Report
+            </button>
+          </div>
         </div>
-        <Link className={styles.primaryButton} href="/barangay-affairs/residents/register">
-          <UserPlus size={15} /> Register resident
-        </Link>
-      </header>
+      </section>
+
+      <div className={styles.body}>
       <section className={styles.card}>
         <div className={styles.toolbar}>
           <label className={styles.searchBox}>
@@ -198,6 +231,17 @@ export function ResidentMasterlistView() {
               onChange={(e) => setFilter("search", e.target.value)}
             />
           </label>
+          <Select value={filters.residentStatus} onValueChange={(v) => setFilter("residentStatus", v === "__all__" ? "" : v)}>
+            <SelectTrigger className={styles.compactSelect} aria-label="Resident status filter">
+              <SelectValue placeholder="All statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">All statuses</SelectItem>
+              {["Active", "Inactive", "Transferred Out", "Deceased", "Merged"].map((v) => (
+                <SelectItem key={v} value={v}>{v}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <button
             type="button"
             className={`${styles.secondaryButton} ${styles.filterButton}`}
@@ -240,196 +284,127 @@ export function ResidentMasterlistView() {
             </button>
           )}
         </div>
-        <div className={styles.filtersBar}>
-          <select
-            className={styles.compactSelect}
-            aria-label="Purok filter"
-            value={filters.purok}
-            onChange={(e) => setFilter("purok", e.target.value)}
-          >
-            <option value="">All puroks</option>
-            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
-              <option key={n}>Purok {n}</option>
-            ))}
-          </select>
-          <select
-            className={styles.compactSelect}
-            aria-label="Gender filter"
-            value={filters.gender}
-            onChange={(e) => setFilter("gender", e.target.value)}
-          >
-            <option value="">All genders</option>
-            <option>Male</option>
-            <option>Female</option>
-          </select>
-          <select
-            className={styles.compactSelect}
-            aria-label="Civil status filter"
-            value={filters.civilStatus}
-            onChange={(e) => setFilter("civilStatus", e.target.value)}
-          >
-            <option value="">All civil statuses</option>
-            {["Single", "Married", "Widowed", "Separated", "Divorced", "Other"].map((v) => (
-              <option key={v}>{v}</option>
-            ))}
-          </select>
-          <select
-            className={styles.compactSelect}
-            aria-label="Resident status filter"
-            value={filters.residentStatus}
-            onChange={(e) => setFilter("residentStatus", e.target.value)}
-          >
-            <option value="">All statuses</option>
-            {["Active", "Inactive", "Transferred Out", "Deceased", "Merged"].map((v) => (
-              <option key={v}>{v}</option>
-            ))}
-          </select>
-          <select
-            className={styles.compactSelect}
-            aria-label="Senior filter"
-            value={filters.senior}
-            onChange={(e) => setFilter("senior", e.target.value)}
-          >
-            <option value="">Senior: All</option>
-            <option value="yes">Senior: Yes</option>
-            <option value="no">Senior: No</option>
-          </select>
-          <select
-            className={styles.compactSelect}
-            aria-label="PWD filter"
-            value={filters.pwd}
-            onChange={(e) => setFilter("pwd", e.target.value)}
-          >
-            <option value="">PWD: All</option>
-            <option value="yes">PWD: Yes</option>
-            <option value="no">PWD: No</option>
-          </select>
-        </div>
         {more && (
           <div className={styles.advancedPanel}>
             <h3>Advanced filters</h3>
             <div className={styles.filterGrid}>
+              <Field label="Purok" value={filters.purok} onChange={(v) => setFilter("purok", v)}>
+                <Select value={filters.purok} onValueChange={(v) => setFilter("purok", v === "__all__" ? "" : v)}>
+                  <SelectTrigger aria-label="Purok filter"><SelectValue placeholder="All puroks" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__all__">All puroks</SelectItem>
+                    {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+                      <SelectItem key={n} value={`Purok ${n}`}>Purok {n}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="Gender" value={filters.gender} onChange={(v) => setFilter("gender", v)}>
+                <Select value={filters.gender} onValueChange={(v) => setFilter("gender", v === "__all__" ? "" : v)}>
+                  <SelectTrigger aria-label="Gender filter"><SelectValue placeholder="All genders" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__all__">All genders</SelectItem>
+                    <SelectItem value="Male">Male</SelectItem>
+                    <SelectItem value="Female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="Civil Status" value={filters.civilStatus} onChange={(v) => setFilter("civilStatus", v)}>
+                <Select value={filters.civilStatus} onValueChange={(v) => setFilter("civilStatus", v === "__all__" ? "" : v)}>
+                  <SelectTrigger aria-label="Civil status filter"><SelectValue placeholder="All civil statuses" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__all__">All civil statuses</SelectItem>
+                    {["Single", "Married", "Widowed", "Separated", "Divorced", "Other"].map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="Employment Status" value={filters.employmentStatus} onChange={(v) => setFilter("employmentStatus", v)}>
+                <Select value={filters.employmentStatus} onValueChange={(v) => setFilter("employmentStatus", v === "__all__" ? "" : v)}>
+                  <SelectTrigger aria-label="Employment status"><SelectValue placeholder="All" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__all__">All</SelectItem>
+                    {["Employed", "Self-employed", "Unemployed", "Student", "Retired", "Not Applicable", "Other"].map((v) => (
+                      <SelectItem key={v} value={v}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <label className={styles.checkboxField}>
+                <input
+                  type="checkbox"
+                  checked={filters.senior === "yes"}
+                  onChange={(e) => setFilter("senior", e.target.checked ? "yes" : "")}
+                />
+                Senior citizen only
+              </label>
+              <label className={styles.checkboxField}>
+                <input
+                  type="checkbox"
+                  checked={filters.pwd === "yes"}
+                  onChange={(e) => setFilter("pwd", e.target.checked ? "yes" : "")}
+                />
+                PWD only
+              </label>
               {(
                 [
-                  ["lrn", "LRN"],
-                  ["firstName", "First name"],
-                  ["middleName", "Middle name"],
-                  ["lastName", "Last name"],
-                  ["nickname", "Nickname"],
-                  ["birthLocality", "Birth locality"],
-                  ["birthMunicipality", "Birth municipality / city"],
-                  ["birthProvince", "Birth province"],
-                  ["birthRegion", "Birth region"],
-                  ["birthCountry", "Birth country"],
-                  ["primaryCitizenship", "Primary citizenship"],
-                  ["secondaryCitizenship", "Secondary citizenship"],
-                  ["sitio", "Sitio"],
-                  ["zone", "Zone"],
-                  ["street", "Street"],
-                  ["subdivision", "Subdivision / village"],
-                  ["postalCode", "Postal code"],
-                  ["occupation", "Occupation"],
-                  ["employer", "Employer"],
-                ] as [keyof ResidentFilters, string][]
-              ).map(([k, l]) => (
-                <Field key={k} label={l} value={filters[k]} onChange={(v) => setFilter(k, v)} />
+                  ["lrn", "LRN", "e.g. LRN-000000000001"],
+                  ["firstName", "First name", "e.g. Juan"],
+                  ["middleName", "Middle name", "e.g. Santos"],
+                  ["lastName", "Last name", "e.g. Dela Cruz"],
+                  ["nickname", "Nickname", "e.g. Jun"],
+                  ["birthLocality", "Birth locality", "e.g. Matnog"],
+                  ["birthMunicipality", "Birth municipality", "e.g. Matnog"],
+                  ["birthProvince", "Birth province", "e.g. Sorsogon"],
+                  ["primaryCitizenship", "Citizenship", "e.g. Filipino"],
+                  ["sitio", "Sitio", "e.g. Centro"],
+                  ["zone", "Zone", "e.g. Zone 1"],
+                  ["street", "Street", "e.g. Rizal St."],
+                  ["subdivision", "Subdivision", "e.g. Matnog Village"],
+                  ["postalCode", "Postal code", "e.g. 4708"],
+                  ["occupation", "Occupation", "e.g. Farmer"],
+                  ["employer", "Employer", "e.g. LGU Matnog"],
+                ] as [keyof ResidentFilters, string, string][]
+              ).map(([k, l, ph]) => (
+                <Field key={k} label={l} value={filters[k]} onChange={(v) => setFilter(k, v)} placeholder={ph} />
               ))}
               {selectedBarangay === "all" && (
-                <label className={styles.field}>
-                  <span>Barangay</span>
-                  <select value={filters.barangayId} onChange={(e) => setFilter("barangayId", e.target.value)}>
-                    <option value="">All barangays</option>
-                    {MATNOG_BARANGAYS.map((b) => (
-                      <option key={b.code} value={b.code}>
-                        {b.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                <Field label="Barangay" value={filters.barangayId} onChange={(v) => setFilter("barangayId", v)}>
+                  <Select value={filters.barangayId} onValueChange={(v) => setFilter("barangayId", v === "__all__" ? "" : v)}>
+                    <SelectTrigger aria-label="Barangay filter"><SelectValue placeholder="All barangays" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__all__">All barangays</SelectItem>
+                      {MATNOG_BARANGAYS.map((b) => (
+                        <SelectItem key={b.code} value={b.code}>{b.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </Field>
               )}
-              <Field
-                label="Birth date from"
-                type="date"
-                value={filters.birthDateFrom}
-                onChange={(v) => setFilter("birthDateFrom", v)}
-              />
-              <Field
-                label="Birth date to"
-                type="date"
-                value={filters.birthDateTo}
-                onChange={(v) => setFilter("birthDateTo", v)}
-              />
-              <Field label="Age from" type="number" value={filters.ageFrom} onChange={(v) => setFilter("ageFrom", v)} />
-              <Field label="Age to" type="number" value={filters.ageTo} onChange={(v) => setFilter("ageTo", v)} />
-              <label className={styles.field}>
-                <span>Employment status</span>
-                <select
-                  value={filters.employmentStatus}
-                  onChange={(e) => setFilter("employmentStatus", e.target.value)}
-                >
-                  <option value="">All</option>
-                  {["Employed", "Self-employed", "Unemployed", "Student", "Retired", "Not Applicable", "Other"].map(
-                    (v) => (
-                      <option key={v}>{v}</option>
-                    ),
-                  )}
-                </select>
-              </label>
-              {(
-                [
-                  ["hasMobile", "Has primary mobile"],
-                  ["hasSecondaryMobile", "Has secondary mobile"],
-                  ["hasLandline", "Has landline"],
-                  ["hasEmail", "Has email"],
-                  ["philsys", "Has PhilSys reference"],
-                ] as [keyof ResidentFilters, string][]
-              ).map(([k, l]) => (
-                <label className={styles.field} key={k}>
-                  <span>{l}</span>
-                  <select value={filters[k]} onChange={(e) => setFilter(k, e.target.value)}>
-                    <option value="">All</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </label>
-              ))}
-              <label className={styles.field}>
-                <span>Missing information</span>
-                <select value={filters.completeness} onChange={(e) => setFilter("completeness", e.target.value)}>
-                  <option value="">Any completeness</option>
-                  <option value="photo">Missing photo</option>
-                  <option value="mobile">Missing mobile</option>
-                  <option value="email">Missing email</option>
-                  <option value="occupation">Missing occupation</option>
-                  <option value="birthPlace">Missing birth place</option>
-                  <option value="address">Missing address details</option>
-                  <option value="citizenship">Missing citizenship</option>
-                </select>
-              </label>
-              <Field
-                label="Registration from"
-                type="date"
-                value={filters.registrationDateFrom}
-                onChange={(v) => setFilter("registrationDateFrom", v)}
-              />
-              <Field
-                label="Registration to"
-                type="date"
-                value={filters.registrationDateTo}
-                onChange={(v) => setFilter("registrationDateTo", v)}
-              />
-              <Field
-                label="Updated from"
-                type="date"
-                value={filters.updatedFrom}
-                onChange={(v) => setFilter("updatedFrom", v)}
-              />
-              <Field
-                label="Updated to"
-                type="date"
-                value={filters.updatedTo}
-                onChange={(v) => setFilter("updatedTo", v)}
-              />
+              <Field label="Birth date from" type="date" value={filters.birthDateFrom} onChange={(v) => setFilter("birthDateFrom", v)} />
+              <Field label="Birth date to" type="date" value={filters.birthDateTo} onChange={(v) => setFilter("birthDateTo", v)} />
+              <Field label="Age from" type="number" value={filters.ageFrom} onChange={(v) => setFilter("ageFrom", v)} placeholder="e.g. 18" />
+              <Field label="Age to" type="number" value={filters.ageTo} onChange={(v) => setFilter("ageTo", v)} placeholder="e.g. 60" />
+              <Field label="Missing information" value={filters.completeness} onChange={(v) => setFilter("completeness", v)}>
+                <Select value={filters.completeness} onValueChange={(v) => setFilter("completeness", v === "__all__" ? "" : v)}>
+                  <SelectTrigger aria-label="Completeness"><SelectValue placeholder="Any completeness" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__all__">Any completeness</SelectItem>
+                    <SelectItem value="photo">Missing photo</SelectItem>
+                    <SelectItem value="mobile">Missing mobile</SelectItem>
+                    <SelectItem value="email">Missing email</SelectItem>
+                    <SelectItem value="occupation">Missing occupation</SelectItem>
+                    <SelectItem value="birthPlace">Missing birth place</SelectItem>
+                    <SelectItem value="address">Missing address details</SelectItem>
+                    <SelectItem value="citizenship">Missing citizenship</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="Registration from" type="date" value={filters.registrationDateFrom} onChange={(v) => setFilter("registrationDateFrom", v)} />
+              <Field label="Registration to" type="date" value={filters.registrationDateTo} onChange={(v) => setFilter("registrationDateTo", v)} />
+              <Field label="Updated from" type="date" value={filters.updatedFrom} onChange={(v) => setFilter("updatedFrom", v)} />
+              <Field label="Updated to" type="date" value={filters.updatedTo} onChange={(v) => setFilter("updatedTo", v)} />
             </div>
           </div>
         )}
@@ -438,11 +413,8 @@ export function ResidentMasterlistView() {
             {filtered.length === scopedTotal
               ? `${filtered.length.toLocaleString()} residents`
               : `${filtered.length.toLocaleString()} of ${scopedTotal.toLocaleString()} residents`}
-            {selectedBarangay === "all"
-              ? ` across ${MATNOG_BARANGAYS.length} barangays`
-              : ` in ${selectedBarangayName}`}
           </strong>
-          <span>Session dummy data · changes reset on reload</span>
+          <span className={styles.scopeBadge}><MapPin size={13} /> {barangayScopeBadge}</span>
         </div>
         {rows.length ? (
           <>
@@ -472,10 +444,10 @@ export function ResidentMasterlistView() {
                           <td>
                             <div className={styles.nameCell}>
                               <Link href={`/barangay-affairs/residents/${r.id}`}>{formatResidentName(r)}</Link>
-                              <small>{r.nickname ? `“${r.nickname}”` : "No alias"}</small>
                             </div>
                           </td>
                         )}
+                        {show("nickname") && <td>{r.nickname || "—"}</td>}
                         {show("barangay") && <td>{barangay}</td>}
                         {show("gender") && <td>{r.gender}</td>}
                         {show("birthDate") && <td>{r.birthDate}</td>}
@@ -536,18 +508,16 @@ export function ResidentMasterlistView() {
             </div>
             <div className={styles.pagination}>
               <span>Rows per page</span>
-              <select
-                className={styles.compactSelect}
-                value={pageSize}
-                onChange={(e) => {
-                  setPageSize(Number(e.target.value));
-                  setPage(1);
-                }}
-              >
-                {[25, 50, 100].map((n) => (
-                  <option key={n}>{n}</option>
-                ))}
-              </select>
+              <Select value={String(pageSize)} onValueChange={(v) => { setPageSize(Number(v)); setPage(1); }}>
+                <SelectTrigger className={styles.compactSelect} aria-label="Rows per page">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[25, 50, 100].map((n) => (
+                    <SelectItem key={n} value={String(n)}>{n}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <span>
                 {(safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, filtered.length)} of {filtered.length}
               </span>
@@ -582,6 +552,7 @@ export function ResidentMasterlistView() {
           </div>
         )}
       </section>
+      </div>
     </div>
   );
 }

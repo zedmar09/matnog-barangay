@@ -44,7 +44,7 @@ export function createHouseholdDummyData(residents: Resident[]) {
   MATNOG_BARANGAYS.forEach((barangay, barangayIndex) => {
     const barangayResidents = residents.filter((resident) => resident.address.barangayId === barangay.code);
     const assignedResidents = barangayResidents.slice(0, Math.max(1, barangayResidents.length - 2));
-    const householdCount = 8;
+    const householdCount = 5 + ((barangayIndex * 7 + 3) % 8);
     for (let localIndex = 0; localIndex < householdCount; localIndex += 1) {
       const start = Math.floor((localIndex * assignedResidents.length) / householdCount);
       const end = Math.floor(((localIndex + 1) * assignedResidents.length) / householdCount);

@@ -32,6 +32,13 @@ const fundSources = [
   "External Grant",
 ];
 const offices = ["MSWDO", "Mayor's Office", "Barangay Council", "MDRRMO", "Municipal Health Office"];
+const liquidationStaff = [
+  "Maria L. Dela Cruz",
+  "Jose P. Mendoza",
+  "Angela R. Santos",
+  "Carlo M. Reyes",
+  "Joanna F. Navarro",
+];
 const purposes: Record<AssistanceType, string> = {
   AICS: "Immediate financial assistance for a household emergency.",
   Burial: "Burial and funeral expense assistance.",
@@ -89,6 +96,20 @@ export function createAssistanceDummyData(residents: Resident[], households: Hou
           : liquidationStatus === "Partially Liquidated"
             ? ["Disbursement voucher", "Partial acknowledgement"]
             : [],
+      liquidationRemarks:
+        liquidationStatus === "Liquidated"
+          ? "Disbursement and acknowledgement documents reviewed and reconciled."
+          : liquidationStatus === "Partially Liquidated"
+            ? "Initial supporting documents received; remaining balance requires reconciliation."
+            : "",
+      liquidatedBy:
+        liquidationStatus && liquidationStatus !== "Unliquidated"
+          ? liquidationStaff[index % liquidationStaff.length]
+          : "",
+      liquidationAttachment:
+        liquidationStatus && liquidationStatus !== "Unliquidated"
+          ? `liquidation-${String(index + 1).padStart(6, "0")}.pdf`
+          : "",
       coolingEndsAt: coolingEndsAt.toISOString().slice(0, 10),
       duplicateFlag: status === "Held",
       matchedRecordId: "",

@@ -4,6 +4,18 @@
   gap: 12px;
   margin-bottom: 18px;
 }
+.documentWizardShell {
+  max-width: 1420px;
+  margin: 0 auto;
+}
+.stepperTwo {
+  grid-template-columns: repeat(2, 1fr);
+}
+.wizardTemplateGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
 .templateCard {
   display: flex;
   min-height: 208px;
@@ -23,6 +35,17 @@
   transform: translateY(-2px);
   border-color: #85c7be;
   box-shadow: 0 9px 24px rgb(23 107 98 / 10%);
+}
+.templateChoice {
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.templateChoiceSelected {
+  border-color: #159488;
+  background: #f1faf8;
+  box-shadow: 0 0 0 2px rgb(21 148 136 / 12%);
 }
 .templateTop {
   display: flex;
@@ -54,6 +77,17 @@
   font-size: 11px;
   line-height: 1.6;
 }
+.templateFee {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 12px;
+  border-radius: 999px;
+  padding: 5px 8px;
+  background: #f0f6f5;
+  color: #4d6c68;
+  font-size: 10px;
+  font-weight: 600;
+}
 .openTemplate {
   display: inline-flex;
   align-items: center;
@@ -70,6 +104,17 @@
   align-items: start;
   gap: 14px;
 }
+.populateHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.wizardActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .editorPanel {
   position: sticky;
   top: 80px;
@@ -80,6 +125,9 @@
   gap: 5px;
   margin-top: 8px;
   overflow: auto;
+}
+.editorPanel .residentSearch input {
+  padding-left: 35px;
 }
 .residentResult,
 .residentSelected {
@@ -227,7 +275,8 @@
   margin-bottom: 10px;
 }
 @media (max-width: 1100px) {
-  .templateGrid {
+  .templateGrid,
+  .wizardTemplateGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .editorGrid {
@@ -238,7 +287,8 @@
   }
 }
 @media (max-width: 650px) {
-  .templateGrid {
+  .templateGrid,
+  .wizardTemplateGrid {
     grid-template-columns: 1fr;
   }
   .paperWrap {
@@ -461,4 +511,10 @@
   margin: 0;
   color: #304e49;
   font-weight: 600;
+}
+.fullProfileCard {
+  grid-column: 1 / -1;
+}
+.actionAccountability {
+  max-width: 620px;
 }

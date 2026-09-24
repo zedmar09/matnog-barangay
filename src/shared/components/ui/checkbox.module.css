@@ -1,0 +1,45 @@
+.root {
+  display: inline-grid;
+  width: 17px;
+  height: 17px;
+  flex: none;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #bdcfcc;
+  border-radius: 5px;
+  outline: none;
+  background: #fff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.root:hover {
+  border-color: #58aaa2;
+}
+
+.root:focus-visible {
+  border-color: #159488;
+  box-shadow: 0 0 0 3px rgb(21 148 136 / 14%);
+}
+
+.root[data-checked],
+.root[data-indeterminate] {
+  border-color: #158f84;
+  background: #158f84;
+}
+
+.root[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.indicator {
+  display: grid;
+  place-items: center;
+  opacity: 0;
+}
+
+.root[data-checked] .indicator,
+.root[data-indeterminate] .indicator {
+  opacity: 1;
+}

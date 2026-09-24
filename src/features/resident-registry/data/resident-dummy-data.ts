@@ -117,11 +117,31 @@ function makeBirthDate(index: number) {
   return `${year}-${pad(1 + Math.floor(random() * 12))}-${pad(1 + Math.floor(random() * 28))}`;
 }
 
+function buildBarangayWeights() {
+  const tempSeed = 554_321;
+  const weights = MATNOG_BARANGAYS.map((_, i) => {
+    const s = ((tempSeed + i * 48271) * 48271) % 2147483647;
+    return 12 + Math.floor((s / 2147483647) * 55);
+  });
+  const total = weights.reduce((a, b) => a + b, 0);
+  const cumulative: number[] = [];
+  let sum = 0;
+  for (const w of weights) {
+    sum += w / total;
+    cumulative.push(sum);
+  }
+  cumulative[cumulative.length - 1] = 1;
+  return cumulative;
+}
+
 export function createResidentDummyData(count = 1200): Resident[] {
   seed = 772_931;
+  const cumulativeWeights = buildBarangayWeights();
   const residents = Array.from({ length: count }, (_, zeroIndex) => {
     const index = zeroIndex + 1;
-    const barangay = MATNOG_BARANGAYS[zeroIndex % MATNOG_BARANGAYS.length];
+    const roll = random();
+    const barangayIndex = cumulativeWeights.findIndex((c) => roll <= c);
+    const barangay = MATNOG_BARANGAYS[barangayIndex >= 0 ? barangayIndex : 0];
     const firstName = pick(firstNames);
     const lastName = pick(lastNames);
     const occupation = pick(occupations);
@@ -193,7 +213,12 @@ export function createResidentDummyData(count = 1200): Resident[] {
       philsysStatus,
       philsysMockToken: philsysStatus === "Not Provided" ? "" : `mock-token-${index}`,
       philsysMockHash: philsysStatus === "Not Provided" ? "" : `mock-hash-${index}`,
-      registrationDate: `202${index % 6}-${pad(1 + (index % 12))}-${pad(1 + (index % 28))}`,
+      registrationDate: (() => {
+        const yr = 2020 + Math.floor(random() * 7);
+        const mo = 1 + Math.floor(random() * 12);
+        const dy = 1 + Math.floor(random() * 28);
+        return `${yr}-${pad(mo)}-${pad(dy)}`;
+      })(),
       createdAt: `202${index % 6}-01-01T08:00:00.000Z`,
       updatedAt: updatedDate.toISOString(),
     };

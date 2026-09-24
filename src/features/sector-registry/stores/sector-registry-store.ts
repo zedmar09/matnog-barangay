@@ -33,6 +33,7 @@ type SectorRegistryState = {
     id: string,
     status: CertificationStatus,
     note: string,
+    reviewedBy?: string,
   ) => SectorCertificationRequest | undefined;
   createCredential: (
     membershipId: string,
@@ -95,27 +96,28 @@ export const useSectorRegistryStore = create<SectorRegistryState>((set, get) => 
     set((state) => ({ memberships: state.memberships.map((item) => (item.id === id ? updated : item)) }));
     return updated;
   },
-  updateCertificationStatus: (id, status, note) => {
+  updateCertificationStatus: (id, status, note, reviewedBy = "") => {
     const request = get().certificationRequests.find((item) => item.id === id);
     if (!request) return undefined;
     const now = new Date().toISOString();
+    const actor =
+      reviewedBy.trim() || (status === "Barangay Certified" ? "Barangay Registry Officer" : "Municipal Sector Desk");
     const updated: SectorCertificationRequest = {
       ...request,
       status,
       decisionNote: note.trim() || request.decisionNote,
-      barangayCertifiedBy:
-        status !== "Submitted"
-          ? request.barangayCertifiedBy || "Barangay Registry Officer"
-          : request.barangayCertifiedBy,
+      barangayCertifiedBy: status === "Barangay Certified" ? actor : request.barangayCertifiedBy,
       barangayCertifiedAt: status !== "Submitted" ? request.barangayCertifiedAt || now : request.barangayCertifiedAt,
       municipalReviewedBy:
-        status === "Approved" || status === "Rejected"
-          ? request.municipalReviewedBy || "Municipal Sector Desk"
+        status === "Municipal Review" || status === "Approved" || status === "Rejected"
+          ? actor
           : request.municipalReviewedBy,
       municipalReviewedAt:
-        status === "Approved" || status === "Rejected"
-          ? request.municipalReviewedAt || now
+        status === "Municipal Review" || status === "Approved" || status === "Rejected"
+          ? now
           : request.municipalReviewedAt,
+      lastActionBy: actor,
+      lastActionAt: now,
       updatedAt: now,
     };
     set((state) => ({

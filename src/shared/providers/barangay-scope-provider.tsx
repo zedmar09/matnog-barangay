@@ -3,42 +3,82 @@
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from "react";
 
 import { MATNOG_BARANGAYS } from "@/data/barangays";
-import { useResidentRegistryStore } from "@/features/resident-registry/stores/resident-registry-store";
 
 type BarangayScopeContextValue = {
   scopeHydrated: boolean;
+  /** Backward compat: "all" when nothing is selected, otherwise first code */
   selectedBarangay: string;
   selectedBarangayName: string;
-  setSelectedBarangay: (value: string) => void;
+  selectedBarangays: string[];
+  isAllSelected: boolean;
+  toggleBarangay: (code: string) => void;
+  selectAll: () => void;
+  isInScope: (barangayCode: string) => boolean;
 };
 
 const BarangayScopeContext = createContext<BarangayScopeContextValue | null>(null);
 
 export function BarangayScopeProvider({ children }: { children: ReactNode }) {
   const [scopeHydrated, setScopeHydrated] = useState(false);
-  const selectedBarangay = useResidentRegistryStore((state) => state.selectedBarangay);
-  const setSelectedBarangay = useResidentRegistryStore((state) => state.setBarangayScope);
+  const [selectedBarangays, setSelectedBarangays] = useState<string[]>([]);
 
   useEffect(() => {
-    const savedScope = window.localStorage.getItem("matnog-barangay-scope");
-    if (savedScope && (savedScope === "all" || MATNOG_BARANGAYS.some((barangay) => barangay.code === savedScope))) {
-      setSelectedBarangay(savedScope);
+    try {
+      const saved = window.localStorage.getItem("matnog-barangay-scope");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setSelectedBarangays(parsed);
+        } else if (typeof parsed === "string" && parsed !== "all") {
+          setSelectedBarangays([parsed]);
+        }
+      }
+    } catch {
+      // ignore
     }
     setScopeHydrated(true);
-  }, [setSelectedBarangay]);
+  }, []);
 
   useEffect(() => {
-    if (scopeHydrated) window.localStorage.setItem("matnog-barangay-scope", selectedBarangay);
-  }, [scopeHydrated, selectedBarangay]);
+    if (scopeHydrated) {
+      window.localStorage.setItem("matnog-barangay-scope", JSON.stringify(selectedBarangays));
+    }
+  }, [scopeHydrated, selectedBarangays]);
+
   const value = useMemo(() => {
-    const record = MATNOG_BARANGAYS.find((barangay) => barangay.code === selectedBarangay);
+    const isAllSelected = selectedBarangays.length === 0;
+    const selectedBarangay = isAllSelected ? "all" : selectedBarangays[0];
+    const scopeSet = new Set(selectedBarangays);
+    const isInScope = (code: string) => isAllSelected || scopeSet.has(code);
+
+    let selectedBarangayName: string;
+    if (isAllSelected) {
+      selectedBarangayName = "All Barangays";
+    } else if (selectedBarangays.length === 1) {
+      const record = MATNOG_BARANGAYS.find((b) => b.code === selectedBarangays[0]);
+      selectedBarangayName = record ? `Brgy. ${record.name}` : "All Barangays";
+    } else {
+      selectedBarangayName = `${selectedBarangays.length} Barangays`;
+    }
+
     return {
       scopeHydrated,
       selectedBarangay,
-      selectedBarangayName: selectedBarangay === "all" || !record ? "All Barangays" : `Brgy. ${record.name}`,
-      setSelectedBarangay,
+      selectedBarangayName,
+      selectedBarangays,
+      isAllSelected,
+      toggleBarangay: (code: string) => {
+        setSelectedBarangays((prev) => {
+          if (prev.includes(code)) {
+            return prev.filter((c) => c !== code);
+          }
+          return [...prev, code];
+        });
+      },
+      selectAll: () => setSelectedBarangays([]),
+      isInScope,
     };
-  }, [scopeHydrated, selectedBarangay, setSelectedBarangay]);
+  }, [scopeHydrated, selectedBarangays]);
 
   return <BarangayScopeContext.Provider value={value}>{children}</BarangayScopeContext.Provider>;
 }

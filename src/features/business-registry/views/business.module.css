@@ -1,4 +1,432 @@
 /* biome-ignore-all lint/style/noDescendingSpecificity: Component scoped selectors intentionally share semantic child elements. */
+.businessHero {
+  background:
+    linear-gradient(90deg, rgb(31 45 27 / 92%), rgb(42 83 49 / 62%) 56%, rgb(48 75 39 / 20%)),
+    url("/images/sarisaristore.webp") center 52% / cover;
+}
+.wizardSummary {
+  margin-top: 18px;
+}
+.clearanceBody {
+  padding-bottom: 34px;
+}
+.clearanceKpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.clearanceKpis article {
+  display: flex;
+  min-height: 96px;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid #dfe9e7;
+  border-radius: 12px;
+  background: #fff;
+  color: #16877c;
+  box-shadow: 0 5px 18px rgb(32 75 68 / 5%);
+}
+.clearanceKpis article > div {
+  display: grid;
+  gap: 4px;
+}
+.clearanceKpis span {
+  color: #647b77;
+  font-size: 12px;
+}
+.clearanceKpis strong {
+  color: #203d38;
+  font-size: 26px;
+  line-height: 1;
+}
+.clearanceTable table {
+  min-width: 1450px;
+  font-size: 12px;
+}
+.clearanceTable th {
+  font-size: 11px;
+}
+.clearanceTable td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 12px;
+}
+.clearanceWorkspace {
+  display: grid;
+  grid-template-columns: minmax(380px, 0.44fr) minmax(520px, 0.56fr);
+  gap: 16px;
+  align-items: start;
+}
+.clearanceQueueCard,
+.clearanceDocumentCard {
+  min-width: 0;
+  overflow: hidden;
+}
+.clearanceFilters {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.clearanceQueueCard .clearanceList {
+  max-height: none;
+  overflow: visible;
+}
+.clearanceQueueCard .clearanceList button {
+  min-height: 76px;
+  grid-template-columns: auto minmax(0, 1fr) auto 94px;
+  gap: 11px;
+  padding: 12px 15px;
+}
+.clearanceQueueCard .clearanceList button strong {
+  color: #294640;
+  font-size: 13px;
+}
+.clearanceQueueCard .clearanceList button small,
+.clearanceQueueCard .clearanceList button em {
+  color: #718581;
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.4;
+}
+.clearanceQueueCard .readyText,
+.clearanceQueueCard .holdText {
+  font-size: 10px;
+  font-weight: 650;
+}
+.queuePagination {
+  padding: 12px 14px;
+  border-top: 1px solid #e5edeb;
+}
+.clearanceDocumentCard .panelHeading strong {
+  font-size: 15px;
+}
+.clearanceDocumentCard .panelHeading small {
+  font-size: 11px;
+}
+.selectedTableRow {
+  background: #edf8f5 !important;
+  box-shadow: inset 3px 0 #168e83;
+}
+.clearanceReviewCard {
+  margin-top: 16px;
+}
+.clearanceReviewCard .panelHeading strong {
+  font-size: 15px;
+}
+.clearanceReviewCard .panelHeading small {
+  font-size: 11px;
+}
+.clearanceReviewLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  gap: 24px;
+  padding: 22px;
+}
+.reviewFacts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.reviewFacts > div {
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+  border: 1px solid #e1ebe9;
+  border-radius: 9px;
+  background: #f8fbfa;
+}
+.reviewFacts span {
+  color: #718581;
+  font-size: 11px;
+}
+.reviewFacts strong {
+  color: #294640;
+  font-size: 13px;
+}
+@media (max-width: 1000px) {
+  .clearanceKpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .clearanceReviewLayout {
+    grid-template-columns: 1fr;
+  }
+  .clearanceWorkspace {
+    grid-template-columns: 1fr;
+  }
+}
+.dashboardBody {
+  padding-bottom: 32px;
+}
+.businessKpiGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.businessKpiCard {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 15px;
+  border: 1px solid #dfe9e7;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgb(32 75 68 / 5%);
+}
+.businessKpiCard > span {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+  background: #e7f5f2;
+  color: #16877c;
+}
+.businessKpiCard > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+.businessKpiCard small {
+  color: #6d817d;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.businessKpiCard strong {
+  color: #1d3935;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+.businessKpiCard b {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #5d7772;
+  font-size: 9px;
+  font-weight: 550;
+}
+.warningKpi > span {
+  background: #fff4df;
+  color: #a46913;
+}
+.dangerKpi > span {
+  background: #fceceb;
+  color: #b14f49;
+}
+.insightStrip {
+  display: grid;
+  grid-template-columns: auto minmax(90px, 1fr) auto minmax(90px, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 14px 17px;
+  border: 1px solid #dfe9e7;
+  border-radius: 12px;
+  background: #fff;
+}
+.insightStrip > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #16877c;
+}
+.insightStrip > div > span {
+  display: grid;
+  gap: 2px;
+}
+.insightStrip small {
+  color: #7b8d89;
+  font-size: 9px;
+}
+.insightStrip strong {
+  color: #314d48;
+  font-size: 12px;
+}
+.insightStrip > i {
+  display: block;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e9f0ee;
+}
+.insightStrip > i b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #168e83;
+}
+.businessChartGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.businessChartCard {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #dfe9e7;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgb(32 75 68 / 4%);
+}
+.chartWide {
+  grid-column: 1 / -1;
+}
+.chartHeader {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 16px;
+}
+.chartHeader > span {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+  background: #e8f5f2;
+  color: #16877c;
+}
+.chartHeader > div {
+  min-width: 0;
+}
+.chartHeader h2,
+.operationsHeader h2 {
+  margin: 0;
+  color: #203d38;
+  font-size: 16px;
+  font-weight: 680;
+  letter-spacing: -0.015em;
+}
+.chartHeader p,
+.operationsHeader p {
+  margin: 4px 0 0;
+  color: #7b8d89;
+  font-size: 11px;
+}
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  justify-content: center;
+}
+.chartLegend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5d736f;
+  font-size: 10px;
+}
+.chartLegend i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.chartLegend b {
+  color: #2d4944;
+  font-size: 10px;
+}
+.businessOperationsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  gap: 16px;
+}
+.operationsCard {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dfe9e7;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgb(32 75 68 / 4%);
+}
+.operationsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e6eeec;
+}
+.operationsHeader a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #147b71;
+  font-size: 10px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.operationsList {
+  display: grid;
+}
+.operationsList > div {
+  display: grid;
+  min-height: 59px;
+  grid-template-columns: auto minmax(0, 1fr) auto 96px;
+  gap: 11px;
+  align-items: center;
+  padding: 9px 18px;
+  border-bottom: 1px solid #edf2f1;
+}
+.operationsList > div:last-child {
+  border-bottom: 0;
+}
+.operationsList > div > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+.operationsList strong {
+  overflow: hidden;
+  color: #314b47;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.operationsList small,
+.operationsList time {
+  color: #7d8f8b;
+  font-size: 9px;
+}
+.operationsList time {
+  text-align: right;
+}
+.healthList {
+  display: grid;
+  padding: 4px 18px 12px;
+}
+.healthList > div {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #edf2f1;
+}
+.healthList > div:last-child {
+  border-bottom: 0;
+}
+.healthList span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #536d68;
+  font-size: 11px;
+}
+.healthList svg {
+  color: #168e83;
+}
+.healthList strong {
+  color: #253f3a;
+  font-size: 15px;
+}
 .dashboardGrid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(270px, 0.6fr);
@@ -1709,6 +2137,16 @@
   font-weight: 650;
 }
 @media (max-width: 900px) {
+  .businessKpiGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .insightStrip,
+  .businessOperationsGrid {
+    grid-template-columns: 1fr;
+  }
+  .insightStrip > i {
+    display: none;
+  }
   .dashboardGrid,
   .registrationLayout,
   .complianceWorkspace,
@@ -1720,6 +2158,19 @@
   }
 }
 @media (max-width: 620px) {
+  .businessKpiGrid,
+  .businessChartGrid {
+    grid-template-columns: 1fr;
+  }
+  .chartWide {
+    grid-column: auto;
+  }
+  .operationsList > div {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .operationsList time {
+    display: none;
+  }
   .formGrid {
     grid-template-columns: 1fr;
   }

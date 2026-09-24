@@ -1,5 +1,5 @@
-import { DocumentDashboardView } from "@/features/document-issuance/views/document-dashboard-view";
+import { DocumentTemplateView } from "@/features/document-issuance/views/document-template-view";
 
 export default function NewDocumentPage() {
-  return <DocumentDashboardView />;
+  return <DocumentTemplateView />;
 }
