@@ -8,12 +8,16 @@ export type ResidentSearchCriteria = {
   birthDate: string;
   mothersMaidenName: string;
   mobile: string;
+  gender: string;
+  civilStatus: string;
+  citizenship: string;
+  occupation: string;
+  addressKeyword: string;
   barangayId: string;
   residentStatus: string;
 };
 
 export type ResidentSearchAccess = {
-  roleLabel: string;
   scope: "municipality" | "barangay" | "none";
   canViewProfile: boolean;
   canViewBirthDate: boolean;
@@ -33,13 +37,17 @@ export const EMPTY_SEARCH_CRITERIA: ResidentSearchCriteria = {
   birthDate: "",
   mothersMaidenName: "",
   mobile: "",
+  gender: "",
+  civilStatus: "",
+  citizenship: "",
+  occupation: "",
+  addressKeyword: "",
   barangayId: "",
   residentStatus: "",
 };
 
 export const SEARCH_ACCESS: Record<AppRole, ResidentSearchAccess> = {
   barangayStaff: {
-    roleLabel: "Barangay Staff",
     scope: "barangay",
     canViewProfile: true,
     canViewBirthDate: true,
@@ -47,7 +55,6 @@ export const SEARCH_ACCESS: Record<AppRole, ResidentSearchAccess> = {
     canViewExactAddress: true,
   },
   barangayOfficial: {
-    roleLabel: "Barangay Official",
     scope: "barangay",
     canViewProfile: true,
     canViewBirthDate: true,
@@ -55,7 +62,6 @@ export const SEARCH_ACCESS: Record<AppRole, ResidentSearchAccess> = {
     canViewExactAddress: true,
   },
   municipalOfficeUser: {
-    roleLabel: "Municipal Office User",
     scope: "municipality",
     canViewProfile: true,
     canViewBirthDate: true,
@@ -63,7 +69,6 @@ export const SEARCH_ACCESS: Record<AppRole, ResidentSearchAccess> = {
     canViewExactAddress: true,
   },
   municipalAdministrator: {
-    roleLabel: "Municipal Administrator",
     scope: "municipality",
     canViewProfile: true,
     canViewBirthDate: true,
@@ -71,7 +76,6 @@ export const SEARCH_ACCESS: Record<AppRole, ResidentSearchAccess> = {
     canViewExactAddress: true,
   },
   auditor: {
-    roleLabel: "Auditor",
     scope: "municipality",
     canViewProfile: false,
     canViewBirthDate: false,
@@ -79,7 +83,6 @@ export const SEARCH_ACCESS: Record<AppRole, ResidentSearchAccess> = {
     canViewExactAddress: false,
   },
   publicUser: {
-    roleLabel: "Public User",
     scope: "none",
     canViewProfile: false,
     canViewBirthDate: false,
@@ -170,7 +173,15 @@ export function searchResidents(
   const access = SEARCH_ACCESS[role];
   if (access.scope === "none") return [];
   const hasIdentityCriteria = Boolean(
-    criteria.query.trim() || criteria.birthDate || criteria.mothersMaidenName.trim() || criteria.mobile.trim(),
+    criteria.query.trim() ||
+      criteria.birthDate ||
+      criteria.mothersMaidenName.trim() ||
+      criteria.mobile.trim() ||
+      criteria.gender ||
+      criteria.civilStatus ||
+      criteria.citizenship.trim() ||
+      criteria.occupation.trim() ||
+      criteria.addressKeyword.trim(),
   );
   if (!hasIdentityCriteria) return [];
 
@@ -179,6 +190,8 @@ export function searchResidents(
       if (access.scope === "barangay" && resident.address.barangayId !== selectedBarangay) return false;
       if (criteria.barangayId && resident.address.barangayId !== criteria.barangayId) return false;
       if (criteria.residentStatus && resident.residentStatus !== criteria.residentStatus) return false;
+      if (criteria.gender && resident.gender !== criteria.gender) return false;
+      if (criteria.civilStatus && resident.civilStatus !== criteria.civilStatus) return false;
       return true;
     })
     .map((resident): ResidentSearchResult | undefined => {
@@ -221,6 +234,42 @@ export function searchResidents(
         if (!primary.includes(digits) && !secondary.includes(digits)) return undefined;
         score += primary === digits || secondary === digits ? 25 : 15;
         signals.push("Mobile number");
+      }
+      if (criteria.gender) {
+        score += 6;
+        signals.push("Sex");
+      }
+      if (criteria.civilStatus) {
+        score += 6;
+        signals.push("Civil status");
+      }
+      if (criteria.citizenship.trim()) {
+        const citizenship = normalized(criteria.citizenship);
+        const primary = normalized(resident.primaryCitizenship);
+        const secondary = normalized(resident.secondaryCitizenship);
+        if (!primary.includes(citizenship) && !secondary.includes(citizenship)) return undefined;
+        score += 10;
+        signals.push("Citizenship");
+      }
+      if (criteria.occupation.trim()) {
+        const occupation = normalized(criteria.occupation);
+        if (!normalized(resident.occupation).includes(occupation)) return undefined;
+        score += 10;
+        signals.push("Occupation");
+      }
+      if (criteria.addressKeyword.trim()) {
+        const addressKeyword = normalized(criteria.addressKeyword);
+        const addressValues = [
+          resident.address.purok,
+          resident.address.sitio,
+          resident.address.zone,
+          resident.address.street,
+          resident.address.subdivision,
+          resident.address.landmark,
+        ];
+        if (!addressValues.some((value) => normalized(value).includes(addressKeyword))) return undefined;
+        score += 10;
+        signals.push("Address area");
       }
       if (!signals.length) return undefined;
       return {
